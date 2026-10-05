@@ -1,6 +1,6 @@
 ---
 type: quote
-book: "[[]]"
+work: "[[]]"
 page:
 edition year:
 speaker:

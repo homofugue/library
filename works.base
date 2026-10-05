@@ -1,0 +1,44 @@
+filters:
+  or:
+    - note.type == "book"
+    - note.type == "article"
+properties:
+  file.name:
+    displayName: work
+views:
+  - type: table
+    name: All works
+    order:
+      - file.name
+      - type
+      - status
+      - author
+      - published year
+      - themes
+    sort:
+      - property: file.name
+        direction: ASC
+  - type: table
+    name: Reading now
+    filters:
+      and:
+        - note.status == "reading"
+    order:
+      - file.name
+      - type
+      - author
+      - started
+  - type: table
+    name: Reading log
+    filters:
+      and:
+        - note.status == "finished"
+    order:
+      - file.name
+      - type
+      - author
+      - started
+      - finished
+    sort:
+      - property: finished
+        direction: DESC

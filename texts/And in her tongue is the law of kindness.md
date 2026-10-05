@@ -5,6 +5,7 @@ title: "And in her tongue is the law of kindness"
 author: 
 translator: 
 date: 
+work:
 source: "Intertitle from an unidentified silent film; the line is Proverbs 31:26 (KJV)"
 source url: 
 original language: English

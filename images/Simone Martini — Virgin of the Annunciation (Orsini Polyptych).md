@@ -4,6 +4,7 @@ kind: artwork
 title: "Virgin of the Annunciation (detail), from the Orsini Polyptych"
 creator: "[[Simone Martini]]"
 date: c. 1320–1330
+work:
 source: "Simone Martini, Orsini Polyptych: Virgin of the Annunciation, tempera and gold leaf on panel, Royal Museum of Fine Arts Antwerp (KMSKA), inv. 258"
 source url: https://kmska.be/en/masterpiece/orsini-polyptych
 hires url: https://iiif.kmska.be/c/iiif/2/public@258.tif/full/full/0/default.jpg

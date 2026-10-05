@@ -9,7 +9,7 @@ views:
     name: All quotes
     order:
       - file.name
-      - book
+      - work
       - page
       - edition year
       - speaker
@@ -28,6 +28,6 @@ views:
         - note.blockid.isEmpty()
     order:
       - file.name
-      - book
+      - work
       - page
       - themes

@@ -5,6 +5,7 @@ title: "Early Autumn, Miserable Heat, Papers Piling Up (excerpt)"
 author: "[[Du Fu]]"
 translator: "[[William Hung]]"
 date: 758
+work:
 source: "William Hung, Tu Fu: China's Greatest Poet (Cambridge, MA: Harvard University Press, 1952) — page not yet checked"
 source url: 
 original language: Classical Chinese

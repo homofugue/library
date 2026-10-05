@@ -4,6 +4,7 @@ kind: archival
 title: "Thrones — Fiery Two-Winged Wheels"
 creator: 
 date: 1907 (this edition; French original 1843)
+work:
 source: "Adolphe Napoléon Didron, Christian Iconography; or, The History of Christian Art in the Middle Ages, vol. II, trans. E. J. Millington, completed by Margaret Stokes (London: George Bell & Sons, 1907), fig. 152, p. 91"
 source url: https://archive.org/details/christianiconogr02didr
 hires url: https://archive.org/download/christianiconogr02didr/christianiconogr02didr.pdf

@@ -1,6 +1,6 @@
 ---
 type: marginalia
-book: "[[]]"
+work: "[[]]"
 page:
 edition year:
 themes:

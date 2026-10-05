@@ -5,6 +5,7 @@ title:
 author: "[[]]"
 translator:
 date:
+work:
 source:
 source url:
 original language:

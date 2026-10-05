@@ -5,6 +5,7 @@ title: "I took two hours of someone's life"
 author: "[[Chantal Akerman]]"
 translator: 
 date: 
+work:
 source: "Televised interview, in French with English subtitles; broadcaster and date not yet identified. Clip circulated by @LostInFilm on X, 2020-06-06"
 source url: https://x.com/LostInFilm/status/1269264317628788736
 original language: French

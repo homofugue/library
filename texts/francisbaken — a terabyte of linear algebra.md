@@ -5,6 +5,7 @@ title: "Ma'am, that is a terabyte of linear algebra"
 author: "@francisbaken (doyoueverjustfuckingascend)"
 translator: 
 date: 
+work:
 source: "Instagram post by @doyoueverjustfuckingascend / @francisbaken; audio: Air, “Alone in Kyoto”"
 source url: 
 original language: English

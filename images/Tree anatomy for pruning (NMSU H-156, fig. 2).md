@@ -4,6 +4,7 @@ kind: diagram
 title: "Figure 2. Tree anatomy for pruning"
 creator: 
 date: 2005 (rev.)
+work:
 source: "Curtis W. Smith, “Tree Pruning Techniques,” Guide H-156 (Las Cruces: New Mexico State University Cooperative Extension Service, rev. September 2005; original authors Doug Bennett and Lynn Ellen Doxon), fig. 2"
 source url: https://pubs.nmsu.edu/_h/H156/index.html
 hires url: https://pubs.nmsu.edu/_h/H156/images/fig%202.jpg

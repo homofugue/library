@@ -1,0 +1,35 @@
+filters:
+  and:
+    - note.type == "article"
+properties:
+  file.name:
+    displayName: article
+views:
+  - type: table
+    name: Table
+    order:
+      - file.name
+      - kind
+      - status
+      - author
+      - in
+      - volume
+      - issue
+      - pages
+      - published year
+      - doi
+      - themes
+      - summary
+  - type: table
+    name: Reading log
+    filters:
+      and:
+        - note.status == "finished"
+    order:
+      - file.name
+      - author
+      - finished
+      - themes
+    sort:
+      - property: finished
+        direction: DESC

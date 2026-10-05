@@ -4,6 +4,7 @@ kind: photograph
 title: "Cleaner vacuuming beside a presidential podium propped on Coca-Cola crates"
 creator: 
 date: 
+work:
 source: "Source not yet identified"
 source url: 
 hires url: 

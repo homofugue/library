@@ -9,7 +9,7 @@ views:
     name: All marginalia
     order:
       - file.name
-      - book
+      - work
       - page
       - edition year
       - themes

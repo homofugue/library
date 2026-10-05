@@ -5,6 +5,7 @@ title: "A bath when you're born"
 author: "[[Kobayashi Issa]]"
 translator: "[[Robert Hass]]"
 date: 
+work:
 source: "Robert Hass, ed., The Essential Haiku: Versions of Bashō, Buson, and Issa (Hopewell, NJ: Ecco, 1994) — page not yet checked"
 source url: 
 original language: Japanese

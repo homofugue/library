@@ -5,6 +5,7 @@ title: "L. S. C. — meritorious in sentiment but defective in metre"
 author: 
 translator: 
 date: 
+work:
 source: "“Answers to correspondents” column, unidentified periodical (19th-century typography)"
 source url: 
 original language: English

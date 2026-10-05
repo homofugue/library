@@ -1,30 +1,27 @@
 ---
-type: book
+type: article
+kind: journal article
 author:
   - "[[Michel Foucault]]"
 translator:
   - "[[Leslie Sawyer]]"
 editor:
+in: "[[Critical Inquiry]]"
+volume: 8
+issue: 4
+pages: "777–795"
 publisher: "[[University of Chicago Press]]"
-series: "[[Critical Inquiry]]"
 published year: 1982
-published:
-  - "[[Chicago]]"
-first published: "1982 — Critical Inquiry 8, no. 4 (Summer 1982), pp. 777–795; also the afterword to Dreyfus & Rabinow, Michel Foucault: Beyond Structuralism and Hermeneutics (1982)"
+doi: 10.1086/448181
+url: https://www.jstor.org/stable/1343197
 original language: "English and French (second part translated by Leslie Sawyer)"
-isbn:
-awards:
-shortlists:
 themes:
   - "[[Pastoral power]]"
   - "[[Autobiography and the self]]"
 tags:
-  - "book"
   - "article"
   - "essay"
-cover:
-first line:
-summary: "Foucault's late essay on how power individualizes: the Christian pastorate, its secular afterlife in the modern state, and the struggles against 'who we are'."
+summary: "Foucault's late essay on how power individualizes: the Christian pastorate, its secular afterlife in the modern state, and the struggles against 'who we are'. Also printed as the afterword to Dreyfus & Rabinow, Michel Foucault: Beyond Structuralism and Hermeneutics (1982)."
 status: reference
 started:
 finished:
@@ -48,7 +45,7 @@ filters:
     - file.hasLink(this.file)
 views:
   - type: table
-    name: Quotes from this book
+    name: Quotes from this work
     order:
       - file.name
       - page
@@ -68,7 +65,7 @@ filters:
     - file.hasLink(this.file)
 views:
   - type: table
-    name: Marginalia on this book
+    name: Marginalia on this work
     order:
       - file.name
       - page

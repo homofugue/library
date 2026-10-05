@@ -4,6 +4,7 @@ kind:
 title:
 creator:
 date:
+work:
 source:
 source url:
 hires url:

@@ -1,6 +1,6 @@
 ---
 type: quote
-book: "[[The Subject and Power]]"
+work: "[[The Subject and Power]]"
 page: 783
 edition year: 1982
 speaker: 

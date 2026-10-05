@@ -5,7 +5,8 @@ This vault is the source of truth for the library. Everything that is published 
 ## Layout
 
 ```
-books/        one note per book or article (the edition you own/read)
+books/        one note per book (the edition you own/read)
+articles/     one note per article, essay or chapter — a work, like a book, but living inside a journal or volume
 quotes/       one note per quotation
 marginalia/   one note per marginal thought (your own words, no excerpt)
 images/       one note per image that is a thing in itself (engraving, painting, photo, diagram)
@@ -22,7 +23,7 @@ _site/        build.py (constellation page) and arena_publish.py (Are.na push)
 
 Folders are by **type**, never by subject. Subject lives in `themes:` links, so a book never has to be moved when it turns out to belong to three subjects.
 
-Every note has `type:` in its frontmatter — `book`, `quote`, `marginalia`, `person`, `theme`, `image`, or `text`. Bases, the site build, and the Are.na export all filter on it.
+Every note has `type:` in its frontmatter — `book`, `article`, `quote`, `marginalia`, `person`, `theme`, `image`, or `text`. **Book and article are the two kinds of *work*.** Quotes, marginalia, texts and images point at a work through a `work:` field; `works.base` lists both kinds together. Bases, the site build, and the Are.na export all filter on it.
 
 Wikilink everything that is a thing: people, themes, publishers, places, awards, series. A link to a note that doesn't exist yet is fine — Obsidian shows it as unresolved and it can be created later from the template.
 
@@ -52,6 +53,21 @@ Wikilink everything that is a thing: people, themes, publishers, places, awards,
 
 Body: your notes, then two embedded Bases that list this book's quotes and marginalia automatically (the template includes them). Rereads: add a line under Notes like `- 2027-01: reread for …` and update `started`/`finished` to the latest read.
 
+## Article  (`articles/<Title>.md`)
+
+A work that lives inside something else: a journal article, an essay in a collection, a book chapter. Same reading-log fields as a book (`status`, `started`, `finished`, `via`, `read in`, `file`) and the same embedded Quotes/Marginalia bases in the body.
+
+| field | meaning |
+|---|---|
+| `type` | `article` |
+| `kind` | `journal article` · `chapter` · `essay` · `review` |
+| `author`, `translator`, `editor` | `[[Person]]` lists |
+| `in` | `[[Journal or volume title]]` |
+| `volume`, `issue`, `pages` | as printed; `pages` as a quoted string (`"777–795"`) |
+| `publisher`, `published year` | of the issue or volume |
+| `doi`, `url` | one stable locator |
+| `summary`, `themes`, `tags` | as for books; keep `article` in tags |
+
 ## Quote  (`quotes/<Author surname> — <few words>.md`)
 
 One quotation per file. A book can have as many as you like; they show up on the book's page via backlinks and the embedded Base.
@@ -59,7 +75,7 @@ One quotation per file. A book can have as many as you like; they show up on the
 | field | meaning |
 |---|---|
 | `type` | `quote` |
-| `book` | `[[Book title]]` — the edition in `books/` |
+| `work` | `[[title]]` — the book in `books/` or the article in `articles/` |
 | `page` | number |
 | `edition year` | copy of the book's `published year`, so the locator is citable on its own |
 | `speaker` | optional — character or voice, if not the author's |
@@ -117,6 +133,7 @@ For a thing that *is* a picture: an archival engraving, a painting, a photograph
 | `source url` | where the citation can be checked |
 | `hires url` | the best copy online (IIIF, archive.org, publisher's own image). `_site/fetch_hires.py` downloads it |
 | `hires file` | filled by `fetch_hires.py` |
+| `work` | optional `[[book or article]]` the figure comes from |
 | `institution`, `inventory`, `medium`, `rights` | for artworks and archival material |
 | `file` | the local copy you actually have (usually the screenshot, cropped) |
 | `captured from` | how it reached you: phone screenshot, Instagram, X … |
@@ -132,6 +149,7 @@ For a short text that is not an excerpt from a book in `books/`: a whole poem, a
 |---|---|
 | `type` | `text` |
 | `kind` | `poem` · `excerpt` · `interview` · `intertitle` · `post` · `notice` |
+| `work` | optional `[[book or article]]` — a text *can* belong to a work (a poem from a collection you hold) but needn't (a tweet, an intertitle) |
 | `title`, `author`, `translator` | `[[Person]]` links where the person has or deserves a note |
 | `date` | of composition (the poem's date, not the capture date) |
 | `source`, `source url` | the book, broadcast or URL it comes from; say "not yet identified" rather than guess |
@@ -139,7 +157,7 @@ For a short text that is not an excerpt from a book in `books/`: a whole poem, a
 | `image` | `attachments/…` — the screenshot or still it was captured from |
 | `via` | who/what surfaced it (a handle, a feed, a friend) |
 
-A quotation *from a book you have a note for* is still a `quote`, not a `text`. A whole poem by someone whose collection you don't own is a `text`.
+A quotation *from a work you have a note for* is a `quote`. A whole poem is a `text`, whether or not it also links to the collection it comes from — the difference is that a quote is an excerpt and a text is complete in itself.
 
 ## Attachments
 
