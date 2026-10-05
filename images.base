@@ -1,0 +1,49 @@
+filters:
+  and:
+    - note.type == "image"
+properties:
+  file.name:
+    displayName: image
+views:
+  - type: cards
+    name: Wall
+    image: note.file
+    order:
+      - file.name
+      - creator
+      - date
+      - kind
+  - type: table
+    name: Table
+    order:
+      - file.name
+      - kind
+      - creator
+      - date
+      - institution
+      - source
+      - hires url
+      - themes
+      - captured
+      - publish
+    sort:
+      - property: captured
+        direction: DESC
+  - type: table
+    name: Needs hi-res
+    filters:
+      and:
+        - note["hires url"].isEmpty()
+    order:
+      - file.name
+      - kind
+      - source
+  - type: table
+    name: Unsourced
+    filters:
+      and:
+        - note.source.isEmpty()
+    order:
+      - file.name
+      - kind
+      - captured

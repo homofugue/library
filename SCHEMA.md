@@ -5,9 +5,12 @@ This vault is the source of truth for the library. Everything that is published 
 ## Layout
 
 ```
-books/        one note per book (the edition you own/read)
+books/        one note per book or article (the edition you own/read)
 quotes/       one note per quotation
 marginalia/   one note per marginal thought (your own words, no excerpt)
+images/       one note per image that is a thing in itself (engraving, painting, photo, diagram)
+texts/        whole short texts not excerpted from a book you hold: poems, interview remarks, intertitles, posts
+attachments/  the image files themselves (screenshots, crops, hi-res downloads)
 people/       authors, translators, editors, recommenders
 themes/       thematic hubs
 templates/    Obsidian core Templates (Cmd/Ctrl-P → "Insert template")
@@ -19,7 +22,7 @@ _site/        build.py (constellation page) and arena_publish.py (Are.na push)
 
 Folders are by **type**, never by subject. Subject lives in `themes:` links, so a book never has to be moved when it turns out to belong to three subjects.
 
-Every note has `type:` in its frontmatter — `book`, `quote`, `marginalia`, `person`, or `theme`. Bases, the site build, and the Are.na export all filter on it.
+Every note has `type:` in its frontmatter — `book`, `quote`, `marginalia`, `person`, `theme`, `image`, or `text`. Bases, the site build, and the Are.na export all filter on it.
 
 Wikilink everything that is a thing: people, themes, publishers, places, awards, series. A link to a note that doesn't exist yet is fine — Obsidian shows it as unresolved and it can be created later from the template.
 
@@ -98,3 +101,50 @@ Everything leaves the vault through git. `git push` to `main` runs `.github/work
 From Obsidian you can also push a single note immediately with the **Are.na Manager** plugin (command: *Push note to Are.na*); it writes the same `blockid`/`channel` fields, so the two paths never duplicate a block. To revise a published quote, edit the note and run *Push note to Are.na* again — the plugin updates the existing block.
 
 The plugin's token lives in `.obsidian/plugins/arena-manager/data.json`, which is git-ignored. Never commit a token.
+
+## Image  (`images/<creator or subject> — <title>.md`)
+
+For a thing that *is* a picture: an archival engraving, a painting, a photograph, a diagram, a meme. One note per image; the file itself lives in `attachments/`.
+
+| field | meaning |
+|---|---|
+| `type` | `image` |
+| `kind` | `archival` · `artwork` · `photograph` · `diagram` · `screenshot` · `meme` |
+| `title` | the work's title or a plain description |
+| `creator` | `[[Person]]` — artist, photographer, engraver; blank if unknown |
+| `date` | of the image or work (free text: `c. 1320–1330`, `1907 (this edition)`) |
+| `source` | a full citation: book + figure + page, or museum + inventory, or "Source not yet identified" |
+| `source url` | where the citation can be checked |
+| `hires url` | the best copy online (IIIF, archive.org, publisher's own image). `_site/fetch_hires.py` downloads it |
+| `hires file` | filled by `fetch_hires.py` |
+| `institution`, `inventory`, `medium`, `rights` | for artworks and archival material |
+| `file` | the local copy you actually have (usually the screenshot, cropped) |
+| `captured from` | how it reached you: phone screenshot, Instagram, X … |
+| `themes`, `captured`, `publish`, `blockid`, `channel`, `user` | as elsewhere |
+
+Body: `![[attachments/…]]` then what you know and don't know. Say explicitly when an identification is probable rather than confirmed.
+
+## Text  (`texts/<author> — <title>.md`)
+
+For a short text that is not an excerpt from a book in `books/`: a whole poem, an interview remark, a film intertitle, a social-media post, a notice in a periodical. The image you captured it from is kept as an associated object in `image:` and embedded at the end of the body.
+
+| field | meaning |
+|---|---|
+| `type` | `text` |
+| `kind` | `poem` · `excerpt` · `interview` · `intertitle` · `post` · `notice` |
+| `title`, `author`, `translator` | `[[Person]]` links where the person has or deserves a note |
+| `date` | of composition (the poem's date, not the capture date) |
+| `source`, `source url` | the book, broadcast or URL it comes from; say "not yet identified" rather than guess |
+| `original language`, `read in` | as for books |
+| `image` | `attachments/…` — the screenshot or still it was captured from |
+| `via` | who/what surfaced it (a handle, a feed, a friend) |
+
+A quotation *from a book you have a note for* is still a `quote`, not a `text`. A whole poem by someone whose collection you don't own is a `text`.
+
+## Attachments
+
+All image files go in `attachments/` (Obsidian is set to put pasted images there). Name them descriptively in kebab-case: `didron-fig152-thrones.png`, `issa-a-bath-when-youre-born.jpg`. Keep the capture even after the hi-res arrives; the capture is the record of where it came from.
+
+## Proposed themes
+
+Themes created by Claude carry `proposed: true` until you've looked at them. `themes.base` → "Proposed (review me)" lists them; flip the field to `false` to accept, or delete the note (and fix the links) to reject.

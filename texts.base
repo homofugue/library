@@ -1,0 +1,44 @@
+filters:
+  and:
+    - note.type == "text"
+properties:
+  file.name:
+    displayName: text
+views:
+  - type: table
+    name: All texts
+    order:
+      - file.name
+      - kind
+      - author
+      - translator
+      - date
+      - source
+      - themes
+      - captured
+      - publish
+    sort:
+      - property: captured
+        direction: DESC
+  - type: table
+    name: Poems
+    filters:
+      and:
+        - note.kind == "poem"
+    order:
+      - file.name
+      - author
+      - translator
+      - date
+      - original language
+      - source
+  - type: table
+    name: To publish
+    filters:
+      and:
+        - note.publish == true
+        - note.blockid.isEmpty()
+    order:
+      - file.name
+      - kind
+      - author

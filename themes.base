@@ -7,3 +7,12 @@ views:
     order:
       - file.name
       - related
+      - proposed
+  - type: table
+    name: Proposed (review me)
+    filters:
+      and:
+        - note.proposed == true
+    order:
+      - file.name
+      - related
