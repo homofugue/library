@@ -4,7 +4,7 @@ parent:
 aliases:
 related:
 
-proposed: true
+proposed: false
 ---
 
 Pruning, training, the shape of growth.

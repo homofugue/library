@@ -4,7 +4,7 @@ parent: "[[Poetics]]"
 aliases:
 related:
   - "[[The sonnet]]"
-proposed: true
+proposed: false
 ---
 
 Metre, defective and otherwise.

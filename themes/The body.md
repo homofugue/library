@@ -4,7 +4,7 @@ parent:
 aliases:
 related:
 
-proposed: true
+proposed: false
 ---
 
 Somatics, posture, where feeling is said to live in the flesh.

@@ -19,7 +19,8 @@ file: attachments/didron-fig152-thrones.png
 captured from: phone screenshot of a scanned page
 themes:
   - "[[Iconography]]"
-  - "[[Angels and visions]]"
+  - "[[Angels]]"
+  - "[[Visions]]"
 captured: 2026-10-05
 publish: false
 blockid:

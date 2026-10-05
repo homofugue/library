@@ -28,7 +28,7 @@ started:
 finished:
 via:
 read in:
-file:
+file: "file:///Users/camilleconsidine/Dropbox/library/psych/psychoanalysis/Winnicott - Playing and Reality, ch. 1 Transitional Objects (Tavistock, 1971).pdf"
 ---
 
 ## Notes

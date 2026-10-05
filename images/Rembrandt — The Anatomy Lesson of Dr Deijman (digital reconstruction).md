@@ -17,9 +17,10 @@ rights:
 file: attachments/deijman-reconstruction-middelkoop-wolzak.jpg
 captured from: web download, 1400 px
 themes:
+  - "[[Surgery]]"
   - "[[Medicine]]"
   - "[[Death]]"
-  - "[[Anatomy and dissection]]"
+  - "[[Anatomy]]"
 captured: 2026-10-05
 publish: false
 blockid:

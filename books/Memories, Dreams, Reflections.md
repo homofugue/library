@@ -9,9 +9,9 @@ translator:
   - "[[Clara Winston]]"
 editor:
   - "[[Aniela Jaffé]]"
-publisher:
+publisher: "[[Collins and Routledge & Kegan Paul]]"
 series:
-published year:
+published year: 1963
 published:
 first published: "1962 (German, Erinnerungen, Träume, Gedanken); 1963 (English)"
 original language: "German"
@@ -32,7 +32,7 @@ started:
 finished:
 via:
 read in:
-file:
+file: "file:///Users/camilleconsidine/Dropbox/library/psych/psychoanalysis/Jung - Memories, Dreams, Reflections (Collins & RKP, 1963).pdf"
 ---
 
 ## Notes

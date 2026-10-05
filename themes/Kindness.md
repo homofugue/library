@@ -4,7 +4,7 @@ parent: "[[Religion and devotion]]"
 aliases:
 related:
 
-proposed: true
+proposed: false
 ---
 
 The law of kindness; tenderness as a rule.

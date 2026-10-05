@@ -20,7 +20,7 @@ captured from: unknown web source (low-res detail)
 themes:
   - "[[Iconography]]"
   - "[[Marian iconography]]"
-  - "[[Angels and visions]]"
+  - "[[Angels]]"
 captured: 2026-10-05
 publish: false
 blockid:

@@ -1,10 +1,10 @@
 ---
 type: theme
-parent: "[[Medicine]]"
+parent: "[[The body]]"
 aliases:
 related:
   - "[[The body]]"
-proposed: true
+proposed: false
 ---
 
 Point maps of the face and limbs; the body as a chart.
