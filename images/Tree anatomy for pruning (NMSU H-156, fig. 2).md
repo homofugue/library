@@ -8,6 +8,7 @@ work:
 source: "Curtis W. Smith, “Tree Pruning Techniques,” Guide H-156 (Las Cruces: New Mexico State University Cooperative Extension Service, rev. September 2005; original authors Doug Bennett and Lynn Ellen Doxon), fig. 2"
 source url: https://pubs.nmsu.edu/_h/H156/index.html
 hires url: https://pubs.nmsu.edu/_h/H156/images/fig%202.jpg
+hires file: attachments/nmsu-h156-fig2.hires.jpg
 institution: 
 inventory: 
 medium: line drawing

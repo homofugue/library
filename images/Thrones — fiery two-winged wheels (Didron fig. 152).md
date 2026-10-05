@@ -8,6 +8,7 @@ work:
 source: "Adolphe Napoléon Didron, Christian Iconography; or, The History of Christian Art in the Middle Ages, vol. II, trans. E. J. Millington, completed by Margaret Stokes (London: George Bell & Sons, 1907), fig. 152, p. 91"
 source url: https://archive.org/details/christianiconogr02didr
 hires url: https://archive.org/download/christianiconogr02didr/christianiconogr02didr.pdf
+hires file: attachments/didron-p91.hires.jpg
 institution: 
 inventory: 
 medium: wood engraving (book illustration)
@@ -25,6 +26,10 @@ user: homo-fugue
 
 ![[attachments/didron-fig152-thrones.png]]
 
-Didron's figure for the third angelic order: two interlocked wheels rimmed with flame, each with two eyed wings, after Ezekiel's vision. The engraver and the manuscript it was copied from are not named in the caption — check p. 91 of the scan.
+Didron's figure for the third angelic order: two interlocked wheels rimmed with flame, each with two eyed wings, after Ezekiel's vision — “the most complete illustration that we are acquainted with of the winged and fiery” thrones (p. 91).
 
-Hi-res: the Internet Archive scan (Smithsonian Libraries copy, CC0). `_site/fetch_hires.py` will download the PDF; the page image itself can be pulled from the `_jp2.zip` at the same URL root.
+The footnote on p. 91 names the source: the illustration “is taken from the illuminated Hours of Anne of France, daughter of Louis XI., was executed by Loys de Laval de Chastillon, and afterwards belonging to Henri IV. Bibl. Nat. No. 920 (formerly 4299), fol. 284a.” — i.e. a miniature in a late-15th-century French Book of Hours, now BnF (shelfmark as given in 1907; the modern BnF number should be checked — Gallica may have the leaf itself).
+
+![[attachments/didron-p91.hires.jpg]]
+
+Full page 91 from the Internet Archive scan (Smithsonian Libraries copy, CC0).

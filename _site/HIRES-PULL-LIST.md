@@ -4,9 +4,9 @@ The cloud session can't reach museum and archive servers, so these need a browse
 
 | image note | where to get the best copy | save as |
 |---|---|---|
-| Thrones — fiery two-winged wheels (Didron fig. 152) | archive.org/details/christianiconogr02didr → "Download options" → PDF (or the `_jp2.zip` for the single page image); figure is on printed p. 91 | `didron-fig152-thrones.hires.jpg` (crop from the page) |
-| Simone Martini — Virgin of the Annunciation | kmska.be/en/masterpiece/orsini-polyptych → download (TIF); or `https://iiif.kmska.be/c/iiif/2/public@258.tif/full/full/0/default.jpg` if the pattern holds | `simone-martini-virgin-annunciate.hires.jpg` |
-| Tree anatomy for pruning (NMSU H-156, fig. 2) | `https://pubs.nmsu.edu/_h/H156/images/fig%202.jpg` (the publisher's own file; also inside the PDF at pubs.nmsu.edu/_h/H156.pdf) | `nmsu-h156-fig2.hires.jpg` |
+| Thrones — fiery two-winged wheels (Didron fig. 152) | **done** — page 91 scan attached |
+| Simone Martini — Virgin of the Annunciation | **done** — KMSKA TIF received, panel cropped |
+| Tree anatomy for pruning (NMSU H-156, fig. 2) | **done** |
 | Rembrandt — Deijman (surviving fragment) | Amsterdam Museum collection, SA 7394 (search "Deijman" at hart.amsterdam), or Wikipedia → click the image → Wikimedia Commons → "Original file" | `deijman-fragment.hires.jpg` |
 | Rembrandt — Deijman (digital reconstruction) | The UvA Public History post (publichistory.humanities.uva.nl/blog/joris-fonteijn-dissected…) embeds it at full size — open the image in its own tab; the museum's record is A 41060 | `deijman-reconstruction.hires.jpg` |
 | Rembrandt's preparatory drawing (not yet a note) | Amsterdam Museum TA 7395, via the same blog post — worth adding as a third image note | `deijman-sketch.hires.jpg` |
