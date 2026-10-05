@@ -85,7 +85,7 @@ Same shape as a quote, minus `speaker` (and no attribution line), and the body i
 
 - Data quality over coverage. Leave a field blank rather than guess. `first line` in particular is only ever filled from the book in hand.
 - One fact, one place: a book's edition year lives on the book; the quote copies it only so the quote can be cited alone.
-- Names are stable identifiers. Renaming a note renames every link (Obsidian handles this) but breaks `arena block` sync and site URLs, so rename early or not at all.
+- Names are stable identifiers. Renaming a note renames every link (Obsidian handles this) but breaks `blockid` sync and site URLs, so rename early or not at all.
 - New note: create the file in the right folder, insert the matching template, fill it in.
 
 ## Publishing
