@@ -8,6 +8,7 @@ This vault is the source of truth for the library. Everything that is published 
 books/        one note per book (the edition you own/read)
 fields/       the handful of central fields everything hangs from (literature, poetry, painting, performance, film, psychoanalysis)
 articles/     one note per article, essay or chapter — a work, like a book, but living inside a journal or volume
+works/        other whole works: films, albums, performances, exhibitions (`type: work`, with `kind:`)
 quotes/       one note per quotation
 marginalia/   one note per marginal thought (your own words, no excerpt)
 images/       one note per image that is a thing in itself (engraving, painting, photo, diagram)
@@ -24,7 +25,7 @@ _site/        build.py (constellation page) and arena_publish.py (Are.na push)
 
 Folders are by **type**, never by subject. Subject lives in `themes:` links, so a book never has to be moved when it turns out to belong to three subjects.
 
-Every note has `type:` in its frontmatter — `field`, `book`, `article`, `quote`, `marginalia`, `person`, `theme`, `image`, or `text`. **Book and article are the two kinds of *work*.** Quotes, marginalia, texts and images point at a work through a `work:` field; `works.base` lists both kinds together. Bases, the site build, and the Are.na export all filter on it.
+Every note has `type:` in its frontmatter — `field`, `book`, `article`, `quote`, `marginalia`, `person`, `theme`, `image`, or `text`. **Book, article and the catch-all `work` (films, albums, performances) are the kinds of *work*.** An article or text that is *about* another work links it with `about:`. Quotes, marginalia, texts and images point at a work through a `work:` field; `works.base` lists both kinds together. Bases, the site build, and the Are.na export all filter on it.
 
 Wikilink everything that is a thing: people, themes, publishers, places, awards, series. A link to a note that doesn't exist yet is fine — Obsidian shows it as unresolved and it can be created later from the template.
 

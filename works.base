@@ -2,6 +2,7 @@ filters:
   or:
     - note.type == "book"
     - note.type == "article"
+    - note.type == "work"
 properties:
   file.name:
     displayName: work

@@ -153,7 +153,7 @@ const TYPES = {
   person:{label:"People",c:"--person",on:true}, theme:{label:"Themes",c:"--theme",on:true},
   imprint:{label:"Publishers & journals",c:"--meta",on:false}, honor:{label:"Honors",c:"--meta",on:false}, geo:{label:"Places & languages",c:"--meta",on:false}
 };
-const FIELD_LABEL = {field:"field",parent:"within",themes:"theme",author:"author",translator:"translator",editor:"editor",creator:"creator",via:"via",work:"from",in:"in",publisher:"publisher",series:"series",institution:"held at",awards:"award",shortlists:"shortlist",published:"published in","original language":"language",related:"related"};
+const FIELD_LABEL = {field:"field",parent:"within",about:"about",themes:"theme",author:"author",translator:"translator",editor:"editor",creator:"creator",via:"via",work:"from",in:"in",publisher:"publisher",series:"series",institution:"held at",awards:"award",shortlists:"shortlist",published:"published in","original language":"language",related:"related"};
 const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
 const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const byId = new Map(DATA.nodes.map(n => [n.id, n]));
@@ -267,7 +267,7 @@ const Graph = ForceGraph()(el)
       ctx.beginPath(); ctx.arc(0,0,r,0,Math.PI*2); ctx.fillStyle = C.bg; ctx.fill(); ctx.lineWidth = 2.2/Math.sqrt(k); ctx.strokeStyle = col; ctx.stroke();
       ctx.beginPath(); ctx.arc(0,0,2.5,0,Math.PI*2); ctx.fillStyle = col; ctx.fill();
     } else if (n.type==="work"){
-      const book = n.kind!=="article", w = book?r*1.3:r*1.9, h = book?r*1.9:r*1.3;
+      const book = n.kind==="book", art = n.kind==="article", w = book?r*1.3:art?r*1.9:r*1.6, h = book?r*1.9:art?r*1.3:r*1.6;
       ctx.beginPath(); ctx.roundRect(-w/2,-h/2,w,h,1.5); ctx.fillStyle = fill; ctx.fill(); ctx.strokeStyle = stroke; ctx.stroke();
     } else if (n.type==="image" && thumbs.get(n.id) && thumbs.get(n.id).complete && thumbs.get(n.id).naturalWidth){
       const im = thumbs.get(n.id), s = r*2;

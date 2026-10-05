@@ -23,14 +23,14 @@ except ImportError:
 HERE = os.path.dirname(os.path.abspath(__file__))
 VAULT = os.path.dirname(HERE)
 LINK = re.compile(r"\[\[([^\]|#]+)(?:[|#][^\]]*)?\]\]")
-FOLDERS = {"fields": "field", "books": "book", "articles": "article", "quotes": "quote", "marginalia": "marginalia",
+FOLDERS = {"fields": "field", "books": "book", "articles": "article", "works": "work", "quotes": "quote", "marginalia": "marginalia",
            "texts": "text", "images": "image", "people": "person", "themes": "theme"}
 # field -> (node type of the target, edge weight)
 FIELDS = {
     "field": ("field", 1.3), "parent": ("field", 1.5),
     "themes": ("theme", 1.0), "author": ("person", 1.2), "translator": ("person", 0.8),
     "editor": ("person", 0.6), "creator": ("person", 1.0), "via": ("person", 0.5),
-    "work": ("work", 1.5), "in": ("imprint", 0.5),
+    "work": ("work", 1.5), "about": ("work", 1.0), "in": ("imprint", 0.5),
     "publisher": ("imprint", 0.5), "series": ("imprint", 0.6), "institution": ("imprint", 0.5),
     "awards": ("honor", 0.6), "shortlists": ("honor", 0.4), "published": ("geo", 0.2),
     "original language": ("geo", 0.5), "related": ("theme", 0.8),
@@ -129,8 +129,8 @@ for folder, kind in FOLDERS.items():
         if fm is None: continue
         t = fm.get("type") or kind
         name = fn[:-3]
-        ntype = "work" if t in ("book", "article") else t
-        n = node(name, ntype, kind=t if ntype == "work" else fm.get("kind"), stub=False)
+        ntype = "work" if t in ("book", "article", "work") else t
+        n = node(name, ntype, kind=(fm.get("kind") or t) if t == "work" else (t if ntype == "work" else fm.get("kind")), stub=False)
         n["stub"] = False
         n["captured"] = str(fm.get("captured") or "")
         n["publish"] = bool(fm.get("publish"))
