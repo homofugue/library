@@ -7,6 +7,8 @@ themes:
   - "[[]]"
 captured: {{date}}
 publish: false
-arena block:
+blockid:
+channel:
+user: homo-fugue
 ---
 

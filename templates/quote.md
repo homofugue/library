@@ -8,8 +8,12 @@ themes:
   - "[[]]"
 captured: {{date}}
 publish: false
-arena block:
+blockid:
+channel:
+user: homo-fugue
 ---
 
 > 
+
+— Author, *Title*, p. N
 

@@ -1,0 +1,70 @@
+name: Publish library
+
+# On every push to main:
+#   1. push any quote/marginalia with `publish: true` and no `blockid` to Are.na
+#      (only if the ARENA_TOKEN repository secret is set), committing the ids back
+#   2. build the constellation page from the vault
+#   3. deploy _site to GitHub Pages
+#
+# One-time setup in the repo on GitHub:
+#   Settings → Pages → Source: "GitHub Actions"
+#   Settings → Secrets and variables → Actions → New repository secret: ARENA_TOKEN
+#   Settings → Pages → Custom domain (optional): library.<your domain>
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - run: pip install pyyaml
+
+      - name: Push new quotes and marginalia to Are.na
+        env:
+          ARENA_TOKEN: ${{ secrets.ARENA_TOKEN }}
+        run: python3 _site/arena_publish.py
+
+      - name: Commit Are.na block ids back to the vault
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add quotes marginalia 2>/dev/null || true
+          if ! git diff --cached --quiet; then
+            git commit -m "Record Are.na block ids [skip ci]"
+            git push
+          fi
+
+      - name: Build the constellation page
+        run: python3 _site/build.py
+
+      - uses: actions/configure-pages@v5
+        with:
+          enablement: true
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+      - id: deploy
+        uses: actions/deploy-pages@v4

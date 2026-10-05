@@ -1,0 +1,63 @@
+.arena-manager-modal .suggestion-item {
+	display: flex;
+	gap: 0.4em;
+	align-items: center;
+}
+.arena-manager-modal span.count {
+	opacity: 0.5;
+}
+.arena-manager-modal .icon-lock {
+	box-sizing: border-box;
+	position: relative;
+	display: block;
+	transform: scale(0.8);
+	width: 10px;
+	height: 8px;
+	border: 2px solid;
+	border-top-right-radius: 50%;
+	border-top-left-radius: 50%;
+	border-bottom: transparent;
+	margin-top: -12px;
+	opacity: 0.5;
+}
+/* The source chooser reuses FuzzySuggestModal but has no use for search; hide
+   the input field (and its clear button) so only the option list shows. */
+.arena-manager-no-search .prompt-input-container {
+	display: none;
+}
+/* The text-input prompt reuses SuggestModal for its top-anchored input field but
+   has no suggestions to offer; hide the results list so only the input shows. */
+.arena-manager-input-only .prompt-results {
+	display: none;
+}
+/* Inline status row beneath the input: hidden until there's an error or progress
+   to report, so a bad URL is corrected in place rather than via a transient
+   notice. */
+.arena-manager-input-status {
+	display: none;
+	padding: 8px var(--size-4-6) 4px;
+	font-size: var(--font-ui-smaller);
+}
+.arena-manager-input-status.is-error,
+.arena-manager-input-status.is-loading {
+	display: block;
+}
+.arena-manager-input-status.is-error {
+	color: var(--text-error);
+}
+.arena-manager-input-status.is-loading {
+	color: var(--text-muted);
+}
+.arena-manager-modal .icon-lock::after {
+	content: "";
+	display: block;
+	box-sizing: border-box;
+	position: absolute;
+	width: 12px;
+	height: 8px;
+	border-radius: 1px;
+	border: 2px solid transparent;
+	box-shadow: 0 0 0 2px;
+	left: -3px;
+	top: 8px;
+}

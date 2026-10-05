@@ -16,7 +16,7 @@ views:
       - themes
       - captured
       - publish
-      - arena block
+      - blockid
     sort:
       - property: captured
         direction: DESC
@@ -25,7 +25,7 @@ views:
     filters:
       and:
         - note.publish == true
-        - note["arena block"].isEmpty()
+        - note.blockid.isEmpty()
     order:
       - file.name
       - book

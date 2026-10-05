@@ -182,5 +182,7 @@
     }
   },
   "active": "14565e0c88415b93",
-  "lastOpenFiles": []
+  "lastOpenFiles": [
+    "_site/arena_publish.py"
+  ]
 }

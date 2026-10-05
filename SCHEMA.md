@@ -12,7 +12,8 @@ people/       authors, translators, editors, recommenders
 themes/       thematic hubs
 templates/    Obsidian core Templates (Cmd/Ctrl-P → "Insert template")
 covers/       cover images, referenced from `cover:`
-_site/        build script for the constellation page (python3 _site/build.py)
+_site/        build.py (constellation page) and arena_publish.py (Are.na push)
+.github/      publish.yml — on every push: Are.na push, site build, GitHub Pages deploy
 *.base        Bases views over each note type
 ```
 
@@ -62,13 +63,15 @@ One quotation per file. A book can have as many as you like; they show up on the
 | `themes` | `[[theme]]` links. A quote can join themes the book as a whole doesn't have. |
 | `captured` | date you logged it |
 | `publish` | `true` makes it eligible for the Are.na export; default `false` |
-| `arena block` | filled by the export script with the Are.na block id after first push; leave blank |
+| `blockid` | Are.na block id, written by the Are.na Manager plugin or `_site/arena_publish.py` after the first push; leave blank |
+| `channel` | Are.na channel slug, written on push |
+| `user` | your Are.na slug (`homo-fugue`); the plugin refuses to update a block unless this matches |
 
-Body: the quotation in a `>` blockquote, verbatim including the original punctuation. Your gloss, if any, goes below the blockquote, not inside it.
+Body: the quotation in a `>` blockquote, verbatim including the original punctuation, then an attribution line `— Author, *Title*, p. N` (the frontmatter doesn't travel to Are.na, so the block needs this line to be citable). Your gloss, if any, goes below that.
 
 ## Marginalia  (`marginalia/<Author surname> — <few words>.md`)
 
-Same shape as a quote, minus `speaker`, and the body is your own writing rather than an excerpt. Use it for a thought pinned to a page. If there is also a passage you want to keep, make a separate quote note and link the two.
+Same shape as a quote, minus `speaker` (and no attribution line), and the body is your own writing rather than an excerpt. Use it for a thought pinned to a page. If there is also a passage you want to keep, make a separate quote note and link the two.
 
 ## Person  (`people/<Name>.md`)
 
@@ -84,3 +87,14 @@ Same shape as a quote, minus `speaker`, and the body is your own writing rather 
 - One fact, one place: a book's edition year lives on the book; the quote copies it only so the quote can be cited alone.
 - Names are stable identifiers. Renaming a note renames every link (Obsidian handles this) but breaks `arena block` sync and site URLs, so rename early or not at all.
 - New note: create the file in the right folder, insert the matching template, fill it in.
+
+## Publishing
+
+Everything leaves the vault through git. `git push` to `main` runs `.github/workflows/publish.yml`, which:
+
+1. runs `_site/arena_publish.py` — every note in `quotes/` or `marginalia/` with `publish: true` and an empty `blockid` becomes one text block in the Are.na channel `reading-notes-kda5p5-rvbw`; the block id is written back and committed (needs the `ARENA_TOKEN` repository secret);
+2. runs `_site/build.py` and deploys `_site/` to GitHub Pages.
+
+From Obsidian you can also push a single note immediately with the **Are.na Manager** plugin (command: *Push note to Are.na*); it writes the same `blockid`/`channel` fields, so the two paths never duplicate a block. To revise a published quote, edit the note and run *Push note to Are.na* again — the plugin updates the existing block.
+
+The plugin's token lives in `.obsidian/plugins/arena-manager/data.json`, which is git-ignored. Never commit a token.
