@@ -38,7 +38,7 @@ jobs:
         with:
           python-version: "3.12"
 
-      - run: pip install pyyaml
+      - run: pip install pyyaml pillow
 
       - name: Push new quotes and marginalia to Are.na
         env:

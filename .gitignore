@@ -2,3 +2,5 @@
 .obsidian/workspace.json
 .obsidian/workspace-mobile.json
 .obsidian/plugins/*/data.json
+_site/index.html
+_site/fragment.html
