@@ -1,6 +1,6 @@
 ---
 type: theme
-parent:
+parent: "[[Attention and perception]]"
 aliases:
 related:
   - "[[Dreams and sleep]]"

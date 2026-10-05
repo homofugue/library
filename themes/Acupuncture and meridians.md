@@ -1,6 +1,6 @@
 ---
 type: theme
-parent:
+parent: "[[Medicine]]"
 aliases:
 related:
   - "[[The body]]"

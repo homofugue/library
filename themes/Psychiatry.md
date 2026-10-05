@@ -1,6 +1,6 @@
 ---
 type: theme
-parent: 
+parent: "[[The clinic]]"
 aliases:
   - psychiatric
 related:

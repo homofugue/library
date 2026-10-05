@@ -7,6 +7,8 @@ page:
 edition year: 1971
 speaker:
 themes:
+  - "[[Family]]"
+  - "[[The clinic]]"
 captured: 2026-10-05
 publish: false
 blockid:

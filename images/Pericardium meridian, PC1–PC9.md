@@ -16,6 +16,7 @@ rights:
 file: attachments/pericardium-meridian-pc1-pc9.png
 captured from: video screenshot (Springer-style figure)
 themes:
+  - "[[Medicine]]"
   - "[[Acupuncture and meridians]]"
   - "[[The body]]"
 captured: 2026-10-05

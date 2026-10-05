@@ -6,6 +6,8 @@ field:
 page:
 edition year:
 themes:
+  - "[[Race]]"
+  - "[[Attention and perception]]"
   - "[[Black history and slavery]]"
   - "[[Iconography]]"
 captured: 2026-10-05

@@ -16,6 +16,7 @@ read in: en
 image: attachments/du-fu-early-autumn-tweet.png
 via: "@temptoetiam (Abie) on X, 2021-11-22"
 themes:
+  - "[[Translation]]"
   - "[[Work and bureaucracy]]"
   - "[[Labor and capitalism]]"
 captured: 2026-10-05

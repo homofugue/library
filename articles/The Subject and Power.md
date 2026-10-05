@@ -17,6 +17,8 @@ doi: 10.1086/448181
 url: https://www.jstor.org/stable/1343197
 original language: "English and French (second part translated by Leslie Sawyer)"
 themes:
+  - "[[The clinic]]"
+  - "[[Power and political economy]]"
   - "[[Pastoral power]]"
   - "[[Autobiography and the self]]"
 tags:

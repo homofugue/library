@@ -6,6 +6,8 @@ field:
 page:
 edition year:
 themes:
+  - "[[Race]]"
+  - "[[Attention and perception]]"
   - "[[Time and duration]]"
 captured: 2026-10-05
 publish: false

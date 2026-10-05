@@ -15,6 +15,8 @@ read in: en
 image: attachments/akerman-interview-time-pass.jpg
 via: ""
 themes:
+  - "[[Attention and perception]]"
+  - "[[Death]]"
   - "[[Time and duration]]"
 captured: 2026-10-05
 publish: false

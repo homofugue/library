@@ -1,6 +1,6 @@
 ---
 type: theme
-parent:
+parent: "[[Poetics]]"
 aliases:
 related:
   - "[[The sonnet]]"

@@ -16,6 +16,7 @@ read in: en
 image: attachments/notley-the-comfort.png
 via: ""
 themes:
+  - "[[Emotion]]"
   - "[[Grief and elegy]]"
 captured: 2026-10-05
 publish: false

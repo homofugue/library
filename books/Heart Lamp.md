@@ -25,7 +25,7 @@ themes:
   - "[[Short stories]]"
   - "[[Women and patriarchy]]"
   - "[[Motherhood]]"
-  - "[[Translation and bilingualism]]"
+  - "[[Translation]]"
 tags:
   - "book"
   - "short-stories"

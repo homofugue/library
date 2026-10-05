@@ -7,6 +7,8 @@ page: 193
 edition year: 1988
 speaker:
 themes:
+  - "[[The clinic]]"
+  - "[[Emotion]]"
 captured: 2026-10-05
 publish: false
 blockid:

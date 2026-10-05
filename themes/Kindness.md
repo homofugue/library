@@ -1,6 +1,6 @@
 ---
 type: theme
-parent:
+parent: "[[Religion and devotion]]"
 aliases:
 related:
 

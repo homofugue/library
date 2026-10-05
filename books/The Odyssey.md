@@ -22,7 +22,7 @@ shortlists:
 themes:
   - "[[Voyages and the sea]]"
   - "[[Myth, magic and fairy tale]]"
-  - "[[Translation and bilingualism]]"
+  - "[[Translation]]"
 tags:
   - "book"
   - "poetry"

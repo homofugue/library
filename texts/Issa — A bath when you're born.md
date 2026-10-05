@@ -16,6 +16,8 @@ read in: en
 image: attachments/issa-a-bath-when-youre-born.jpg
 via: ""
 themes:
+  - "[[Mourning]]"
+  - "[[Death]]"
   - "[[Grief and elegy]]"
 captured: 2026-10-05
 publish: false

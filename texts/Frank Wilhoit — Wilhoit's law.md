@@ -14,6 +14,7 @@ read in: en
 image:
 via: ""
 themes:
+  - "[[Power and political economy]]"
   - "[[Law and power]]"
 captured: 2026-10-05
 publish: false

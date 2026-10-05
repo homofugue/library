@@ -1,6 +1,6 @@
 ---
 type: theme
-parent:
+parent: "[[Technology and surveillance]]"
 aliases:
 related:
   - "[[Technology and surveillance]]"

@@ -21,7 +21,7 @@ shortlists:
 themes:
   - "[[Grief and elegy]]"
   - "[[Motherhood]]"
-  - "[[Translation and bilingualism]]"
+  - "[[Translation]]"
   - "[[Migration and diaspora]]"
   - "[[Music and performance]]"
 tags:

@@ -52,8 +52,9 @@ button:focus-visible,input:focus-visible,[tabindex]:focus-visible{outline:2px so
 .sep{width:1px;height:14px;background:var(--line)}
 main{display:grid;grid-template-columns:minmax(0,1fr) 380px;min-height:0}
 #graph{position:relative;min-height:0;overflow:hidden}
-#graph svg{width:100%;height:100%;display:block;cursor:grab}
-#graph svg:active{cursor:grabbing}
+#graph canvas{display:block;cursor:grab}
+#graph:active canvas{cursor:grabbing}
+.force-graph-container .graph-tooltip{display:none}
 .hint{position:absolute;left:0;bottom:8px;font-size:.7rem;color:var(--faint);pointer-events:none}
 .ctl{position:absolute;right:8px;bottom:8px;display:flex;gap:4px}
 .ctl button{border:1px solid var(--line);background:var(--surface);color:var(--muted);font:500 .75rem var(--f-body);padding:4px 9px;border-radius:6px;cursor:pointer}
@@ -110,15 +111,6 @@ ul.rank,ol.rank{list-style:none;margin:0;padding:0;display:grid;gap:2px}
 .shelf .big{font-family:var(--f-display);font-size:1.25rem;line-height:1.1}
 .shelf .lab{font-size:.72rem;color:var(--muted);display:flex;align-items:center;gap:6px}
 .shelf .lab .sw{width:8px;height:8px;border-radius:50%;background:var(--c)}
-.node text{font-family:var(--f-body);font-size:10px;fill:var(--muted);pointer-events:none;paint-order:stroke;stroke:var(--bg);stroke-width:3px;stroke-linejoin:round}
-.node.work text{font-family:var(--f-display);font-size:11.5px;fill:var(--ink)}
-.node.field text{font-family:var(--f-display);font-size:15px;fill:var(--ink);text-transform:lowercase;letter-spacing:.01em}
-.node.theme text{font-weight:500;fill:var(--ink)}
-.node{cursor:pointer}
-.link{stroke:var(--edge);fill:none}
-.dim{opacity:.1}
-.node.hit .mark{stroke:var(--focus);stroke-width:2.5px}
-.node.sel .mark{stroke:var(--focus);stroke-width:3px}
 .empty{color:var(--muted);font-size:.85rem}
 a{color:inherit}
 @media (max-width:760px){
@@ -143,8 +135,8 @@ a{color:inherit}
   <div class="filters" id="filters" role="group" aria-label="Show or hide node types"></div>
   <main>
     <div id="graph">
-      <svg id="svg" role="img" aria-label="Network of works, quotes, texts, images, people and themes"></svg>
-      <div class="hint">Drag to pan · scroll to zoom · click to read · double-click to centre</div>
+      <div id="fg" role="img" aria-label="Network of works, quotes, texts, images, people and themes"></div>
+      <div class="hint">Drag to pan · scroll to zoom · click to read · drag a node to pin it for a moment</div>
       <div class="ctl"><button id="fit" type="button">Fit</button><button id="clear" type="button">Clear</button></div>
     </div>
     <aside id="panel" aria-live="polite"></aside>
@@ -152,6 +144,7 @@ a{color:inherit}
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+<script src="https://unpkg.com/force-graph@1.52.0/dist/force-graph.min.js"></script>
 <script>
 const DATA = /*DATA*/null;
 const TYPES = {
@@ -200,16 +193,16 @@ buildFilters();
 const written = DATA.nodes.filter(n=>!n.stub).length;
 document.getElementById("count").textContent = `${written} notes · ${DATA.nodes.length-written} linked names · built ${DATA.built}`;
 
-// ---------- graph ----------
-const svg = d3.select("#svg"), root = svg.append("g");
-const defs = svg.append("defs");
-const gLinks = root.append("g"), gNodes = root.append("g");
-let userZoomed = false;
-const zoom = d3.zoom().scaleExtent([.25,5]).on("zoom", e => { root.attr("transform", e.transform); if (e.sourceEvent) userZoomed = true; });
-svg.call(zoom).on("dblclick.zoom", null);
-let sim, nodeSel, linkSel, fitted = false, current = {nodes:[],links:[]};
-const pos = new Map();
-function size(){ const r = document.getElementById("graph").getBoundingClientRect(); return [Math.max(r.width,300), Math.max(r.height,300)]; }
+// ---------- graph (canvas, force-graph) ----------
+const el = document.getElementById("fg");
+const cssv = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+let C = {}; function readColors(){ C = {bg:cssv("--bg"), ink:cssv("--ink"), muted:cssv("--muted"), faint:cssv("--faint"), edge:cssv("--edge"), focus:cssv("--focus"),
+  work:cssv("--work"), theme:cssv("--theme"), capture:cssv("--capture"), person:cssv("--person"), meta:cssv("--meta")}; }
+readColors();
+const colorOf = t => C[TYPES[t].c.slice(2)];
+const thumbs = new Map();   // id -> HTMLImageElement
+DATA.nodes.forEach(n => { if (n.type==="image" && n.thumb){ const im = new Image(); im.src = n.thumb.src; thumbs.set(n.id, im); } });
+let current = {nodes:[],links:[]}, nodeById = new Map(), userZoomed = false, hovered = null, searchHits = null, fitted = false;
 function radius(n){
   const d = deg.get(n.id)||0;
   if (n.type==="field") return 12 + Math.sqrt(d)*2.6;
@@ -221,103 +214,114 @@ function radius(n){
   if (n.type==="quote"||n.type==="marginalia") return 4;
   return 3 + Math.sqrt(d);
 }
+function labelOn(d){ const k = deg.get(d.id)||0; return d.type==="field" || d.type==="work" || (d.type==="theme" && (!d.stub || k>=2)) || (d.type==="person" && k>=3) || d.id===selected; }
+const trunc = t => t.length>42 ? t.slice(0,40)+"…" : t;
+// what each node is drawn toward: its parent theme/field, its work, or its first field
+function anchorOf(n){
+  if (n.type==="theme" || n.type==="field") return n.parent ? [n.parent, n.type==="field"?.08:.14] : null;
+  if (n.work && nodeById.has(n.work)) return [n.work, .05];
+  if (n.fields && n.fields.length && nodeById.has(n.fields[0])) return [n.fields[0], n.type==="work"?.045:.03];
+  return null;
+}
+function forceParent(){
+  let nodes = [];
+  function force(alpha){
+    for (const n of nodes){
+      const a = anchorOf(n); if (!a) continue;
+      const p = nodeById.get(a[0]); if (!p || p.x==null) continue;
+      n.vx += (p.x - n.x) * a[1] * alpha; n.vy += (p.y - n.y) * a[1] * alpha;
+    }
+  }
+  force.initialize = ns => { nodes = ns; };
+  return force;
+}
 function build(){
   const keep = new Set();
   DATA.nodes.forEach(n => { if (!visible[n.type]) return; if (n.stub && !showStubs && n.type!=="theme" && n.id!==selected) return; keep.add(n.id); });
-  const nodes = DATA.nodes.filter(n=>keep.has(n.id)).map(n => Object.assign({r:radius(n)}, n));
+  const prev = nodeById;
+  const nodes = DATA.nodes.filter(n=>keep.has(n.id)).map(n => { const o = prev.get(n.id); return Object.assign({r:radius(n)}, n, o ? {x:o.x,y:o.y,vx:0,vy:0} : {}); });
   const links = DATA.edges.filter(e=>keep.has(e.source)&&keep.has(e.target)).map(e=>({source:e.source,target:e.target,w:e.w,field:e.field}));
+  nodeById = new Map(nodes.map(n=>[n.id,n]));
   return {nodes, links};
 }
-function drawMark(sel){
-  sel.each(function(d){
-    const g = d3.select(this), col = `var(${TYPES[d.type].c})`;
-    const fill = d.stub ? "var(--bg)" : col, stroke = d.stub ? col : "var(--bg)", dash = d.stub ? "2,2" : null;
-    if (d.type==="field"){
-      g.append("circle").attr("class","mark").attr("r",d.r).attr("fill","var(--bg)").attr("stroke",col).attr("stroke-width",2.2);
-      g.append("circle").attr("r",2.5).attr("fill",col);
-    } else if (d.type==="work"){
-      const book = d.kind!=="article";
-      g.append("rect").attr("class","mark").attr("width", book?d.r*1.3:d.r*1.9).attr("height", book?d.r*1.9:d.r*1.3)
-        .attr("x", book?-d.r*.65:-d.r*.95).attr("y", book?-d.r*.95:-d.r*.65).attr("rx",1.5)
-        .attr("fill",fill).attr("stroke",stroke).attr("stroke-width",1.5).attr("stroke-dasharray",dash);
-    } else if (d.type==="image" && d.thumb){
-      const id = "clip-"+Math.random().toString(36).slice(2,8), s = d.r*2;
-      defs.append("clipPath").attr("id",id).append("rect").attr("x",-d.r).attr("y",-d.r).attr("width",s).attr("height",s).attr("rx",3);
-      g.append("rect").attr("class","mark").attr("x",-d.r-1.5).attr("y",-d.r-1.5).attr("width",s+3).attr("height",s+3).attr("rx",4).attr("fill",col).attr("stroke","var(--bg)").attr("stroke-width",1.5);
-      g.append("image").attr("href",d.thumb.src).attr("x",-d.r).attr("y",-d.r).attr("width",s).attr("height",s).attr("preserveAspectRatio","xMidYMid slice").attr("clip-path",`url(#${id})`);
-    } else if (d.type==="text"){
-      g.append("rect").attr("class","mark").attr("width",d.r*1.5).attr("height",d.r*1.5).attr("x",-d.r*.75).attr("y",-d.r*.75).attr("rx",1)
-        .attr("transform","rotate(45)").attr("fill",fill).attr("stroke",stroke).attr("stroke-width",1.3).attr("stroke-dasharray",dash);
-    } else if (d.type==="marginalia"){
-      g.append("circle").attr("class","mark").attr("r",d.r).attr("fill","var(--bg)").attr("stroke",col).attr("stroke-width",1.6);
+function neighborSet(id){ const s = new Set([id]); (nbrs.get(id)||[]).forEach(x => s.add(x.id)); return s; }
+let focusSet = null;   // ids to keep bright
+function recomputeFocus(){ focusSet = searchHits ? searchHits : selected ? neighborSet(selected) : hovered ? neighborSet(hovered.id) : null; }
+function alphaFor(id){ return focusSet && !focusSet.has(id) ? .12 : 1; }
+
+const Graph = ForceGraph()(el)
+  .nodeId("id").nodeLabel(() => "").nodeRelSize(1).nodeVal(n => n.r*n.r/8)
+  .backgroundColor("rgba(0,0,0,0)")
+  .linkColor(l => { const a = focusSet ? ((focusSet.has(l.source.id) && focusSet.has(l.target.id)) ? .9 : .05) : .42; return C.edge.replace(/[\d.]+\)$/, a+")"); })
+  .linkWidth(l => .35 + l.w*.55)
+  .linkDirectionalParticles(l => selected && (l.source.id===selected || l.target.id===selected) ? Math.round(1 + l.w*2) : 0)
+  .linkDirectionalParticleWidth(l => 1.5 + l.w)
+  .linkDirectionalParticleColor(() => C.capture)
+  .nodeCanvasObjectMode(() => "replace")
+  .nodeCanvasObject((n, ctx, k) => {
+    const col = colorOf(n.type), a = alphaFor(n.id), r = n.r;
+    ctx.save(); ctx.globalAlpha = a; ctx.translate(n.x, n.y);
+    const stroke = n.stub ? col : C.bg, fill = n.stub ? C.bg : col;
+    ctx.lineWidth = 1.4 / Math.sqrt(k); if (n.stub) ctx.setLineDash([2/k, 2/k]);
+    if (n.type==="field"){
+      ctx.beginPath(); ctx.arc(0,0,r,0,Math.PI*2); ctx.fillStyle = C.bg; ctx.fill(); ctx.lineWidth = 2.2/Math.sqrt(k); ctx.strokeStyle = col; ctx.stroke();
+      ctx.beginPath(); ctx.arc(0,0,2.5,0,Math.PI*2); ctx.fillStyle = col; ctx.fill();
+    } else if (n.type==="work"){
+      const book = n.kind!=="article", w = book?r*1.3:r*1.9, h = book?r*1.9:r*1.3;
+      ctx.beginPath(); ctx.roundRect(-w/2,-h/2,w,h,1.5); ctx.fillStyle = fill; ctx.fill(); ctx.strokeStyle = stroke; ctx.stroke();
+    } else if (n.type==="image" && thumbs.get(n.id) && thumbs.get(n.id).complete && thumbs.get(n.id).naturalWidth){
+      const im = thumbs.get(n.id), s = r*2;
+      ctx.beginPath(); ctx.roundRect(-r-1.5,-r-1.5,s+3,s+3,4); ctx.fillStyle = col; ctx.fill();
+      ctx.save(); ctx.beginPath(); ctx.roundRect(-r,-r,s,s,3); ctx.clip();
+      const iw = im.naturalWidth, ih = im.naturalHeight, sc = Math.max(s/iw, s/ih), dw = iw*sc, dh = ih*sc;
+      ctx.drawImage(im, -dw/2, -dh/2, dw, dh); ctx.restore();
+    } else if (n.type==="text"){
+      ctx.rotate(Math.PI/4); ctx.beginPath(); ctx.roundRect(-r*.75,-r*.75,r*1.5,r*1.5,1); ctx.fillStyle = fill; ctx.fill(); ctx.strokeStyle = stroke; ctx.stroke(); ctx.rotate(-Math.PI/4);
+    } else if (n.type==="marginalia"){
+      ctx.beginPath(); ctx.arc(0,0,r,0,Math.PI*2); ctx.fillStyle = C.bg; ctx.fill(); ctx.setLineDash([]); ctx.lineWidth = 1.6/Math.sqrt(k); ctx.strokeStyle = col; ctx.stroke();
     } else {
-      g.append("circle").attr("class","mark").attr("r",d.r).attr("fill",fill).attr("fill-opacity",d.stub?1:.92).attr("stroke",stroke).attr("stroke-width",1.3).attr("stroke-dasharray",dash);
+      ctx.beginPath(); ctx.arc(0,0,r,0,Math.PI*2); ctx.fillStyle = fill; ctx.fill(); ctx.strokeStyle = stroke; ctx.stroke();
     }
-    g.append("text");
-  });
-}
-function labelOn(d){ const k = deg.get(d.id)||0; return d.type==="field" || d.type==="work" || (d.type==="theme" && (!d.stub || k>=2)) || (d.type==="person" && k>=3) || d.id===selected; }
-function render(){
-  const [W,H] = size();
-  svg.attr("viewBox", [-W/2,-H/2,W,H]);
-  current = build();
-  current.nodes.forEach(n => { const p = pos.get(n.id); if (p){ n.x=p.x; n.y=p.y; } });
-  linkSel = gLinks.selectAll("line").data(current.links, l => (l.source.id||l.source)+"~"+(l.target.id||l.target))
-    .join("line").attr("class","link").attr("stroke-width", l => .5 + l.w*.9).attr("stroke-opacity", l => .3 + l.w*.3);
-  nodeSel = gNodes.selectAll("g.node").data(current.nodes, d=>d.id).join(enter => {
-    const g = enter.append("g").attr("tabindex",0).attr("role","button"); drawMark(g); return g;
-  });
-  nodeSel.attr("class", d => "node " + d.type + (d.stub?" stub":"")).attr("aria-label", d => d.title);
-  nodeSel.select("text").text(d => d.type==="image" ? "" : (d.title.length>42 ? d.title.slice(0,40)+"…" : d.title))
-    .attr("x", d => d.r + 4).attr("y", 4).attr("display", d => labelOn(d) ? null : "none");
-  nodeSel.on("click", (e,d) => select(d.id)).on("dblclick", (e,d) => { e.preventDefault(); centre(d); })
-    .on("keydown",(e,d)=>{ if(e.key==="Enter"||e.key===" "){e.preventDefault();select(d.id);} })
-    .on("mouseenter", (e,d) => { if(!selected) highlight(d.id); d3.select(e.currentTarget).select("text").attr("display",null).text(d.title.length>42 ? d.title.slice(0,40)+"…" : d.title); })
-    .on("mouseleave", (e,d) => { if(!selected) highlight(null); if(!labelOn(d)) d3.select(e.currentTarget).select("text").attr("display","none"); else if (d.type==="image") d3.select(e.currentTarget).select("text").text(""); })
-    .call(d3.drag().on("start",(e,d)=>{ if(!e.active) sim.alphaTarget(.2).restart(); d.fx=d.x; d.fy=d.y; })
-                   .on("drag",(e,d)=>{ d.fx=e.x; d.fy=e.y; })
-                   .on("end",(e,d)=>{ if(!e.active) sim.alphaTarget(0); d.fx=null; d.fy=null; }));
-  if (sim) sim.stop();
-  sim = d3.forceSimulation(current.nodes)
-    .force("link", d3.forceLink(current.links).id(d=>d.id).distance(l => (l.field==="field"||l.field==="parent") ? 90 : 30 + 40/(l.w+.4)).strength(l => l.field==="field" ? .35 : Math.min(.9,.2+l.w*.3)))
-    .force("charge", d3.forceManyBody().strength(d => d.type==="field" ? -700 : d.type==="work" ? -240 : d.type==="theme" ? -160 : d.type==="image" ? -140 : -50 - d.r*6))
-    .force("collide", d3.forceCollide(d => labelOn(d) ? Math.max(d.r + 10, 8 + Math.min(d.title.length, 34) * 2.1) : d.r + 5).strength(.8))
-    .force("x", d3.forceX(0).strength(.045)).force("y", d3.forceY(0).strength(.07))
-    .on("tick", () => { tick(); if (sim.alpha() < .25 && !fitted){ fitted = true; fit(true); } }).on("end", () => fit(true));
-  fitted = false;
-  if (reduce){ sim.stop(); for(let i=0;i<300;i++) sim.tick(); tick(); fit(false); }
-  else sim.alpha(pos.size ? .5 : 1).restart();
-  if (selected && !current.nodes.find(n=>n.id===selected)) selected = null;
-  highlight(selected);
-}
-function fit(animate){
-  if (userZoomed || !current.nodes.length) return;
-  const [W,H] = size(), pad = 30;
-  const xs = current.nodes.map(n=>n.x), ys = current.nodes.map(n=>n.y);
-  const x0 = d3.min(xs)-20, x1 = d3.max(xs)+150, y0 = d3.min(ys)-20, y1 = d3.max(ys)+20;
-  const k = Math.max(W < 600 ? .6 : .3, Math.min(1.6, (W-2*pad)/(x1-x0), (H-2*pad)/(y1-y0)));
-  const tr = d3.zoomIdentity.scale(k).translate(-(x0+x1)/2, -(y0+y1)/2);
-  (animate && !reduce ? svg.transition().duration(600) : svg).call(zoom.transform, tr);
-}
-function centre(d){ userZoomed = true; const t = d3.zoomTransform(svg.node()); svg.transition().duration(reduce?0:500).call(zoom.transform, d3.zoomIdentity.scale(Math.max(t.k,1.6)).translate(-d.x,-d.y)); }
-function tick(){
-  linkSel.attr("x1",l=>l.source.x).attr("y1",l=>l.source.y).attr("x2",l=>l.target.x).attr("y2",l=>l.target.y);
-  nodeSel.attr("transform",d=>`translate(${d.x},${d.y})`);
-  current.nodes.forEach(n => pos.set(n.id,{x:n.x,y:n.y}));
-}
-function neighbors(id){
-  const s = new Set([id]);
-  current.links.forEach(l => { const a=l.source.id||l.source, b=l.target.id||l.target; if(a===id) s.add(b); if(b===id) s.add(a); });
-  return s;
-}
-function highlight(id){
-  if (!nodeSel) return;
-  if (!id){ nodeSel.classed("dim",false).classed("hit",false).classed("sel",false); linkSel.classed("dim",false); return; }
-  const nb = neighbors(id);
-  nodeSel.classed("dim", d=>!nb.has(d.id)).classed("sel", d=>d.id===id).classed("hit",false);
-  linkSel.classed("dim", l => (l.source.id!==id && l.target.id!==id));
-  nodeSel.filter(d=>nb.has(d.id)).select("text").attr("display",null).text(d => d.title.length>42 ? d.title.slice(0,40)+"…" : d.title);
-}
+    ctx.setLineDash([]);
+    if (n.id===selected || (searchHits && searchHits.has(n.id))){ ctx.beginPath(); ctx.arc(0,0,r+3,0,Math.PI*2); ctx.lineWidth = 2/Math.sqrt(k); ctx.strokeStyle = C.focus; ctx.stroke(); }
+    // label — level of detail: anchors always, others when zoomed in, hovered or in focus
+    const show = labelOn(n) || k > 2.2 || (hovered && hovered.id===n.id) || (focusSet && focusSet.has(n.id) && focusSet.size < 40);
+    if (show && !(n.type==="image" && !(hovered && hovered.id===n.id) && n.id!==selected)){
+      const serif = n.type==="field" || n.type==="work";
+      const fs = (n.type==="field" ? 15 : n.type==="work" ? 11.5 : 10) / Math.pow(k, .75);
+      ctx.font = `${n.type==="theme"?"500 ":""}${fs}px ${serif ? '"Young Serif",Georgia,serif' : '"Public Sans",system-ui,sans-serif'}`;
+      ctx.textBaseline = "middle"; ctx.textAlign = "left";
+      const txt = n.type==="field" ? n.title.toLowerCase() : trunc(n.title);
+      ctx.lineWidth = 3/Math.sqrt(k); ctx.strokeStyle = C.bg; ctx.lineJoin = "round"; ctx.strokeText(txt, r+4, 0);
+      ctx.fillStyle = (serif || n.type==="theme") ? C.ink : C.muted; ctx.fillText(txt, r+4, 0);
+    }
+    ctx.restore();
+  })
+  .nodePointerAreaPaint((n, color, ctx) => { ctx.fillStyle = color; ctx.beginPath(); ctx.arc(n.x, n.y, n.r+4, 0, Math.PI*2); ctx.fill(); })
+  .onNodeHover(n => { hovered = n; el.style.cursor = n ? "pointer" : "grab"; if (!selected && !searchHits) recomputeFocus(); })
+  .onNodeClick(n => select(n.id))
+  .onBackgroundClick(() => select(null))
+  .onNodeDrag(() => { userZoomed = true; })
+  .onZoom(() => {})
+  .cooldownTicks(260).d3AlphaDecay(.03).d3VelocityDecay(.3)
+  .onEngineStop(() => { if (!fitted && !userZoomed){ fitted = true; Graph.zoomToFit(600, 40); } });
+el.addEventListener("wheel", () => { userZoomed = true; }, {passive:true});
+el.addEventListener("pointerdown", e => { if (e.target.tagName==="CANVAS") userZoomed = true; });
+Graph.d3Force("charge").strength(n => n.type==="field" ? -700 : n.type==="work" ? -240 : n.type==="theme" ? -160 : n.type==="image" ? -140 : -50 - n.r*6);
+Graph.d3Force("link").distance(l => (l.field==="field"||l.field==="parent") ? 90 : 30 + 40/(l.w+.4)).strength(l => l.field==="field" ? .35 : Math.min(.9,.2+l.w*.3));
+Graph.d3Force("center", null);
+Graph.d3Force("x", d3.forceX(0).strength(.045)); Graph.d3Force("y", d3.forceY(0).strength(.07));
+Graph.d3Force("collide", d3.forceCollide(d => labelOn(d) ? Math.max(d.r + 10, 8 + Math.min(d.title.length, 34) * 2.1) : d.r + 5).strength(.8));
+Graph.d3Force("parent", forceParent());
+function sizeGraph(){ const r = el.parentElement.getBoundingClientRect(); Graph.width(Math.max(r.width,300)).height(Math.max(r.height,300)); }
+new ResizeObserver(sizeGraph).observe(el.parentElement); sizeGraph();
+function render(){ current = build(); fitted = false; Graph.graphData(current); Graph.d3ReheatSimulation(); recomputeFocus(); }
+function fit(){ userZoomed = false; Graph.zoomToFit(600, 40); }
+function highlight(){ recomputeFocus(); }
+function centreOn(id){ const n = nodeById.get(id); if (n && n.x!=null){ Graph.centerAt(n.x, n.y, 500); if (Graph.zoom() < 1.4) Graph.zoom(1.6, 500); } }
+// theme changes: re-read the tokens
+matchMedia("(prefers-color-scheme: dark)").addEventListener("change", readColors);
+new MutationObserver(readColors).observe(document.documentElement, {attributes:true, attributeFilter:["data-theme"]});
 
 // ---------- panel ----------
 const panel = document.getElementById("panel");
@@ -470,25 +474,23 @@ function showPlain(n){
 }
 function select(id){
   selected = id;
-  if (!id){ showHome(); highlight(null); return; }
+  if (!id){ showHome(); searchHits = null; recomputeFocus(); return; }
   const n = byId.get(id); if (!n) return;
   ({field:showField, work:showWork, quote:showQuote, marginalia:showQuote, text:showText, image:showImage, person:showPerson, theme:showTheme}[n.type] || showPlain)(n);
-  if (!current.nodes.find(x=>x.id===id)){
+  if (!nodeById.has(id)){
     if (!visible[n.type]){ visible[n.type]=true; const b = filtersEl.querySelector(".chip."+n.type); if (b) b.setAttribute("aria-pressed",true); save(); }
     render();
   }
-  highlight(id);
-  const cn = current.nodes.find(x=>x.id===id);
-  if (cn && cn.x!=null){ svg.transition().duration(reduce?0:450).call(zoom.translateTo, cn.x, cn.y); }
+  searchHits = null; recomputeFocus();
+  setTimeout(() => centreOn(id), nodeById.get(id) && nodeById.get(id).x!=null ? 0 : 900);
   panel.scrollTop = 0;
 }
 panel.addEventListener("click", e => {
   const go = e.target.closest("[data-go]"); if (go) return select(go.dataset.go);
   if (e.target.closest("[data-home]")) return select(null);
-  const f = e.target.closest("[data-filter]"); if (f){ const t=f.dataset.filter; Object.keys(visible).forEach(k=>visible[k]=(k===t||k==="work"&&t!=="work"?visible[k]:false)); visible[t]=true; buildFilters(); save(); render(); }
+  const f = e.target.closest("[data-filter]"); if (f){ const t=f.dataset.filter; Object.keys(visible).forEach(k=>visible[k]=(k===t||k==="work"||k==="field")); buildFilters(); save(); render(); }
 });
-svg.on("click", e => { if (e.target === svg.node()) select(null); });
-document.getElementById("fit").onclick = () => { userZoomed=false; fit(true); };
+document.getElementById("fit").onclick = () => fit();
 document.getElementById("clear").onclick = () => { Object.entries(TYPES).forEach(([k,v])=>visible[k]=v.on); showStubs=false; buildFilters(); save(); select(null); render(); };
 document.addEventListener("keydown", e => { if (e.key==="Escape"){ select(null); document.getElementById("q").value=""; } });
 
@@ -497,16 +499,12 @@ const hay = new Map(DATA.nodes.map(n => [n.id, [n.title, n.quote, n.text, (n.aut
 const q = document.getElementById("q");
 q.addEventListener("input", e => {
   const s = e.target.value.trim().toLowerCase();
-  if (!s){ highlight(selected); return; }
-  const hits = new Set(current.nodes.filter(n => hay.get(n.id).includes(s)).map(n=>n.id));
-  nodeSel.classed("dim", d=>!hits.has(d.id)).classed("hit", d=>hits.has(d.id));
-  nodeSel.filter(d=>hits.has(d.id)).select("text").attr("display",null).text(d => d.title.length>42 ? d.title.slice(0,40)+"…" : d.title);
-  linkSel.classed("dim", true);
+  if (!s){ searchHits = null; recomputeFocus(); if (!selected) showHome(); return; }
+  searchHits = new Set(DATA.nodes.filter(n => hay.get(n.id).includes(s)).map(n=>n.id)); recomputeFocus();
   const list = DATA.nodes.filter(n => hay.get(n.id).includes(s)).slice(0,30);
   panel.innerHTML = `<p class="eyebrow">Search</p><h2>${list.length} ${list.length===1?"match":"matches"}</h2><ul class="rank">${list.map(n=>row(n, TYPES[n.type].label, n.type==="quote"?n.quote:n.type==="text"?(n.text||"").split("\n")[0]:(n.author||n.creator||[]).join(", "))).join("")||"<li class='empty'>Nothing matches.</li>"}</ul>`;
 });
 q.addEventListener("keydown", e => { if (e.key!=="Enter") return; const s = q.value.trim().toLowerCase(); const n = DATA.nodes.find(n => hay.get(n.id).includes(s)); if (n) select(n.id); });
-let rT; addEventListener("resize", () => { clearTimeout(rT); rT = setTimeout(()=>{ const [W,H]=size(); svg.attr("viewBox",[-W/2,-H/2,W,H]); }, 150); });
 
 showHome(); render();
 </script>

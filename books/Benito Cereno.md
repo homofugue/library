@@ -16,6 +16,8 @@ isbn:
 awards:
 shortlists:
 themes:
+  - "[[Race]]"
+  - "[[Attention and perception]]"
   - "[[Novels]]"
   - "[[Time and duration]]"
   - "[[Voyages and the sea]]"

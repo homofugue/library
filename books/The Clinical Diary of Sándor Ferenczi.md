@@ -20,6 +20,8 @@ isbn:
 awards:
 shortlists:
 themes:
+  - "[[The clinic]]"
+  - "[[Emotion]]"
 tags:
   - "book"
   - "diary"

@@ -17,6 +17,8 @@ rights: Public domain
 file: attachments/deijman-fragment-amsterdam-museum.jpg
 captured from: web download, 3508 × 2642 px (good enough to count as hi-res; museum TIF would still be better)
 themes:
+  - "[[Medicine]]"
+  - "[[Death]]"
   - "[[Anatomy and dissection]]"
   - "[[The body]]"
 captured: 2026-10-05

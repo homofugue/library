@@ -19,6 +19,7 @@ doi: 10.1007/978-1-4614-5275-1_18
 url: https://link.springer.com/chapter/10.1007/978-1-4614-5275-1_18
 original language: "English"
 themes:
+  - "[[Medicine]]"
   - "[[Acupuncture and meridians]]"
 tags:
   - "article"

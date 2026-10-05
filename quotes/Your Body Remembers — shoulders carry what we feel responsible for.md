@@ -6,6 +6,7 @@ page: 50
 edition year: 
 speaker: 
 themes:
+  - "[[Emotion]]"
   - "[[The body]]"
 image: attachments/your-body-remembers-p50-instagram.png
 captured: 2026-10-05

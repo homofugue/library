@@ -14,6 +14,7 @@ isbn:
 awards:
 shortlists:
 themes:
+  - "[[Emotion]]"
   - "[[The body]]"
 tags:
   - "book"

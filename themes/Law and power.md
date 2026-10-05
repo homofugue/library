@@ -1,6 +1,6 @@
 ---
 type: theme
-parent:
+parent: "[[Power and political economy]]"
 aliases:
 related:
   - "[[Pastoral power]]"

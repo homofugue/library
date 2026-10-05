@@ -16,6 +16,7 @@ rights:
 file: attachments/facial-acupuncture-points-cn.png
 captured from: video screenshot
 themes:
+  - "[[Medicine]]"
   - "[[Acupuncture and meridians]]"
   - "[[The body]]"
 captured: 2026-10-05

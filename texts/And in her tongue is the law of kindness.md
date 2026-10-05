@@ -15,6 +15,7 @@ read in: en
 image: attachments/intertitle-law-of-kindness.jpg
 via: ""
 themes:
+  - "[[Religion and devotion]]"
   - "[[Kindness]]"
   - "[[Women and patriarchy]]"
 captured: 2026-10-05
