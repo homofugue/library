@@ -1,0 +1,20 @@
+filters:
+  and:
+    - note.type == "marginalia"
+properties:
+  file.name:
+    displayName: note
+views:
+  - type: table
+    name: All marginalia
+    order:
+      - file.name
+      - book
+      - page
+      - edition year
+      - themes
+      - captured
+      - publish
+    sort:
+      - property: captured
+        direction: DESC

@@ -1,0 +1,82 @@
+filters:
+  or:
+    - note.type == "book"
+    - file.hasTag("book")
+properties:
+  file.name:
+    displayName: book name
+views:
+  - type: table
+    name: Table
+    order:
+      - file.name
+      - status
+      - cover
+      - author
+      - translator
+      - editor
+      - publisher
+      - series
+      - published year
+      - first published
+      - published
+      - original language
+      - read in
+      - awards
+      - shortlists
+      - themes
+      - tags
+      - via
+      - first line
+      - summary
+      - isbn
+      - file
+  - type: cards
+    name: Covers
+    image: note.cover
+    order:
+      - file.name
+      - author
+      - published year
+      - themes
+  - type: table
+    name: Reading now
+    filters:
+      and:
+        - note.status == "reading"
+    order:
+      - file.name
+      - cover
+      - author
+      - started
+      - themes
+    sort:
+      - property: started
+        direction: DESC
+  - type: table
+    name: Reading log
+    filters:
+      and:
+        - note.status == "finished"
+    order:
+      - file.name
+      - cover
+      - author
+      - started
+      - finished
+      - via
+      - themes
+    sort:
+      - property: finished
+        direction: DESC
+  - type: table
+    name: To read
+    filters:
+      and:
+        - note.status == "unread"
+    order:
+      - file.name
+      - cover
+      - author
+      - via
+      - themes

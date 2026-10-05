@@ -1,0 +1,33 @@
+filters:
+  and:
+    - note.type == "quote"
+properties:
+  file.name:
+    displayName: quote
+views:
+  - type: table
+    name: All quotes
+    order:
+      - file.name
+      - book
+      - page
+      - edition year
+      - speaker
+      - themes
+      - captured
+      - publish
+      - arena block
+    sort:
+      - property: captured
+        direction: DESC
+  - type: table
+    name: To publish
+    filters:
+      and:
+        - note.publish == true
+        - note["arena block"].isEmpty()
+    order:
+      - file.name
+      - book
+      - page
+      - themes

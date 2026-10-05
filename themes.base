@@ -1,0 +1,9 @@
+filters:
+  and:
+    - note.type == "theme"
+views:
+  - type: table
+    name: Themes
+    order:
+      - file.name
+      - related
