@@ -112,7 +112,7 @@ Same shape as a quote, minus `speaker` (and no attribution line), and the body i
 
 ## Theme  (`themes/<theme>.md`)
 
-`type: theme`, `aliases`, `related` (list of `[[theme]]`). The body should be a paragraph on what the theme means in this library — on the site the theme page is the hub, and an empty node with forty backlinks reads badly.
+`type: theme`, `parent` (one `[[theme]]` or `[[field]]` it nests inside — Anti-psychiatry → Psychiatry, Novels → literature; blank for a top-level theme), `aliases`, `related` (list of `[[theme]]`). The body should be a paragraph on what the theme means in this library — on the site the theme page is the hub, and an empty node with forty backlinks reads badly.
 
 ## Rules of thumb
 

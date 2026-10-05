@@ -6,6 +6,7 @@ views:
     name: Themes
     order:
       - file.name
+      - parent
       - related
       - proposed
   - type: table

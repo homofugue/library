@@ -9,6 +9,8 @@ aliases:
 born: 1875
 died: 1961
 nationality: Swiss
+themes:
+  - "[[Psychiatry]]"
 ---
 
 

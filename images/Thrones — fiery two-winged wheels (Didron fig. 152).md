@@ -18,6 +18,7 @@ rights: Public domain
 file: attachments/didron-fig152-thrones.png
 captured from: phone screenshot of a scanned page
 themes:
+  - "[[Iconography]]"
   - "[[Angels and visions]]"
 captured: 2026-10-05
 publish: false

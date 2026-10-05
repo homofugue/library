@@ -7,5 +7,6 @@ aliases:
 born:
 died:
 nationality:
+themes:
 ---
 

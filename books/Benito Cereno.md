@@ -16,6 +16,7 @@ isbn:
 awards:
 shortlists:
 themes:
+  - "[[Novels]]"
   - "[[Time and duration]]"
   - "[[Voyages and the sea]]"
   - "[[Black history and slavery]]"

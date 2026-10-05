@@ -17,6 +17,7 @@ isbn: "9780547572178"
 awards:
 shortlists:
 themes:
+  - "[[Novels]]"
   - "[[Dreams and sleep]]"
   - "[[Technology and surveillance]]"
   - "[[Autobiography and the self]]"

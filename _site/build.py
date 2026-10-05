@@ -106,6 +106,7 @@ def cover_src(v):
     if s.startswith(("http://", "https://")): return s
     t = thumb(s); return t["src"] if t else None
 
+FIELD_NAMES = {fn[:-3] for fn in os.listdir(os.path.join(VAULT, "fields"))} if os.path.isdir(os.path.join(VAULT, "fields")) else set()
 nodes, edges = {}, []
 def node(id_, type_, **kw):
     n = nodes.setdefault(id_, {"id": id_, "type": type_, "title": id_, "stub": True})
@@ -178,15 +179,17 @@ for folder, kind in FOLDERS.items():
                       "died": str(fm.get("died") or ""), "nationality": str(fm.get("nationality") or ""),
                       "aliases": [str(a) for a in as_list(fm.get("aliases"))], "text": plain(body, 400)})
         elif ntype == "theme":
-            n.update({"proposed": bool(fm.get("proposed")), "text": plain(body, 500),
+            n.update({"proposed": bool(fm.get("proposed")), "text": plain(body, 500), "parent": (links_in(fm.get("parent")) or [""])[0],
                       "aliases": [str(a) for a in as_list(fm.get("aliases"))]})
         # edges from fields
         for field, (ttype, w) in FIELDS.items():
             if field not in fm: continue
+            if field == "parent": ttype = ntype          # a theme's parent is a theme (or a field); a field's parent is a field
             vals = languages(fm.get(field)) if field == "original language" else links_in(fm.get(field))
             if field == "via" and not LINK.search(str(fm.get("via") or "")): continue   # free-text via is not a node
             for v in vals:
-                node(v, ttype)
+                tgt = node(v, ttype)
+                if field == "parent" and ntype == "theme" and v in FIELD_NAMES: tgt["type"] = "field"
                 edge(name, v, field, w)
 
 # any linked-but-unwritten name keeps type from the field that linked it; mark stubs

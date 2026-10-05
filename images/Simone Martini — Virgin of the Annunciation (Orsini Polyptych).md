@@ -18,6 +18,7 @@ rights: Public domain (KMSKA open data)
 file: attachments/simone-martini-virgin-annunciate-antwerp.jpg
 captured from: unknown web source (low-res detail)
 themes:
+  - "[[Iconography]]"
   - "[[Marian iconography]]"
   - "[[Angels and visions]]"
 captured: 2026-10-05

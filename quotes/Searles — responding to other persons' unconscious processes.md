@@ -7,6 +7,7 @@ page: 247
 edition year: 1958
 speaker:
 themes:
+  - "[[Schizophrenia]]"
 captured: 2026-10-05
 publish: false
 blockid:

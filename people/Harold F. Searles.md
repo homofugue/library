@@ -9,6 +9,9 @@ aliases:
 born: 1918
 died: 2015
 nationality: American
+themes:
+  - "[[Schizophrenia]]"
+  - "[[Psychiatry]]"
 ---
 
 

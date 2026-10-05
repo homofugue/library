@@ -1,5 +1,6 @@
 ---
 type: theme
+parent:
 aliases:
 related:
   - "[[Dreams and sleep]]"

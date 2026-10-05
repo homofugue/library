@@ -453,7 +453,7 @@ function showField(n){
 function showTheme(n){
   panel.innerHTML = `
     <button class="back" data-home>← Library</button>
-    <p class="eyebrow"><span class="dot" style="--c:${col("theme")}"></span>theme ${n.proposed?`<span class="pill">proposed · review me</span>`:""}</p>
+    <p class="eyebrow"><span class="dot" style="--c:${col("theme")}"></span>theme${n.parent&&byId.get(n.parent)?` · within <button class="linkish" data-go="${esc(n.parent)}">${esc(n.parent)}</button>`:""} ${n.proposed?`<span class="pill">proposed · review me</span>`:""}</p>
     <h2>${esc(n.title)}</h2>
     ${n.stub ? `<p class="empty">Used as a link but has no theme note yet.</p>` : ""}
     ${n.text ? `<p class="prose">${esc(n.text)}</p>` : ""}

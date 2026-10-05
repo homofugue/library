@@ -22,6 +22,7 @@ awards:
   - "[[English PEN Award]]"
 shortlists:
 themes:
+  - "[[Short stories]]"
   - "[[Women and patriarchy]]"
   - "[[Motherhood]]"
   - "[[Translation and bilingualism]]"

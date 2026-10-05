@@ -18,6 +18,7 @@ isbn: "9780811228275"
 awards:
 shortlists:
 themes:
+  - "[[Short stories]]"
   - "[[Motherhood]]"
   - "[[Women and patriarchy]]"
   - "[[Translation and bilingualism]]"

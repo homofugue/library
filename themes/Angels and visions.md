@@ -1,5 +1,6 @@
 ---
 type: theme
+parent: "[[Iconography]]"
 aliases:
 related:
   - "[[Myth, magic and fairy tale]]"

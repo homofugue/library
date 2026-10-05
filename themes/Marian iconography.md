@@ -1,5 +1,6 @@
 ---
 type: theme
+parent: "[[Iconography]]"
 aliases:
 related:
   - "[[Angels and visions]]"

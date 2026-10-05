@@ -19,6 +19,7 @@ isbn:
 awards:
 shortlists:
 themes:
+  - "[[Psychiatry]]"
   - "[[Autobiography and the self]]"
 tags:
   - "book"
