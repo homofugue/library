@@ -19,6 +19,7 @@ awards:
   - "[[Artforum Best Books]]"
 shortlists:
 themes:
+  - "[[Marxism]]"
   - "[[Labor and capitalism]]"
   - "[[Women and patriarchy]]"
   - "[[The sonnet]]"

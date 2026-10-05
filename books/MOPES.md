@@ -18,6 +18,7 @@ awards:
   - "[[Fence Modern Poets Series Prize]]"
 shortlists:
 themes:
+  - "[[Marxism]]"
   - "[[Queer lives]]"
   - "[[Labor and capitalism]]"
 tags:
