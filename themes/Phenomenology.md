@@ -4,7 +4,7 @@ parent:
 aliases:
   - phenomenological
 related:
-  - "[[Psychoanalysis]]"
+  - "[[psychoanalysis]]"
 proposed: false
 ---
 
