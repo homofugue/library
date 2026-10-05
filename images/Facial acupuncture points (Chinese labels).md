@@ -1,6 +1,7 @@
 ---
 type: image
 kind: diagram
+field:
 title: "Facial acupuncture points, with ear inset"
 creator: 
 date: 

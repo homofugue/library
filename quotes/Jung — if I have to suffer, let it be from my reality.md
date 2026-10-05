@@ -1,11 +1,12 @@
 ---
 type: quote
 work: "[[Memories, Dreams, Reflections]]"
+field:
+  - "[[psychoanalysis]]"
 page: 15
 edition year: 
 speaker:
 themes:
-  - "[[Psychoanalysis]]"
   - "[[Autobiography and the self]]"
 captured: 2026-10-05
 publish: false

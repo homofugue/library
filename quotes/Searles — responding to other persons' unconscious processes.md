@@ -1,11 +1,12 @@
 ---
 type: quote
 work: "[[The schizophrenic's vulnerability to the therapist's unconscious processes]]"
+field:
+  - "[[psychoanalysis]]"
 page: 247
 edition year: 1958
 speaker:
 themes:
-  - "[[Psychoanalysis]]"
 captured: 2026-10-05
 publish: false
 blockid:

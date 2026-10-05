@@ -1,6 +1,7 @@
 ---
 type: article
 kind: journal article
+field:
 author:
   - "[[Michel Foucault]]"
 translator:

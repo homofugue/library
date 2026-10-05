@@ -1,5 +1,7 @@
 ---
 type: person
+field:
+  - "[[film]]"
 role:
   - filmmaker
   - author

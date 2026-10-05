@@ -1,6 +1,8 @@
 ---
 type: image
 kind: artwork
+field:
+  - "[[painting]]"
 title: "Virgin of the Annunciation (detail), from the Orsini Polyptych"
 creator: "[[Simone Martini]]"
 date: c. 1320–1330

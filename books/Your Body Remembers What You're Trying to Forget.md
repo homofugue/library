@@ -1,5 +1,6 @@
 ---
 type: book
+field:
 author:
 translator:
 editor:

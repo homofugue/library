@@ -1,11 +1,12 @@
 ---
 type: quote
 work: "[[Transitional Objects and Transitional Phenomena]]"
+field:
+  - "[[psychoanalysis]]"
 page:
 edition year: 1971
 speaker:
 themes:
-  - "[[Psychoanalysis]]"
 captured: 2026-10-05
 publish: false
 blockid:

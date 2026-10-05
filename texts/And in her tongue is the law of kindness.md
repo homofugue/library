@@ -1,6 +1,8 @@
 ---
 type: text
 kind: intertitle
+field:
+  - "[[film]]"
 title: "And in her tongue is the law of kindness"
 author: 
 translator: 

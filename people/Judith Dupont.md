@@ -1,5 +1,7 @@
 ---
 type: person
+field:
+  - "[[psychoanalysis]]"
 role:
   - editor
 aliases:

@@ -1,6 +1,7 @@
 ---
 type: quote
 work: "[[]]"
+field:
 page:
 edition year:
 speaker:

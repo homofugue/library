@@ -1,5 +1,9 @@
 ---
 type: book
+field:
+  - "[[literature]]"
+  - "[[poetry]]"
+  - "[[performance]]"
 author:
   - "[[Tyehimba Jess]]"
 translator:

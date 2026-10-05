@@ -1,5 +1,7 @@
 ---
 type: person
+field:
+  - "[[painting]]"
 role:
   - artist
 aliases:

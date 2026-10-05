@@ -1,5 +1,8 @@
 ---
 type: book
+field:
+  - "[[literature]]"
+  - "[[poetry]]"
 author:
   - "[[Jericho Brown]]"
 translator:

@@ -1,6 +1,7 @@
 ---
 type: image
 kind: diagram
+field:
 title: "Figure 2. Tree anatomy for pruning"
 creator: 
 date: 2005 (rev.)

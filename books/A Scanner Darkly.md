@@ -1,5 +1,7 @@
 ---
 type: book
+field:
+  - "[[literature]]"
 author:
   - "[[Philip K. Dick]]"
 translator:

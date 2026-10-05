@@ -1,6 +1,9 @@
 ---
 type: text
 kind: poem
+field:
+  - "[[literature]]"
+  - "[[poetry]]"
 title: "Early Autumn, Miserable Heat, Papers Piling Up (excerpt)"
 author: "[[Du Fu]]"
 translator: "[[William Hung]]"

@@ -1,11 +1,12 @@
 ---
 type: quote
 work: "[[The Clinical Diary of Sándor Ferenczi]]"
+field:
+  - "[[psychoanalysis]]"
 page: 193
 edition year: 1988
 speaker:
 themes:
-  - "[[Psychoanalysis]]"
 captured: 2026-10-05
 publish: false
 blockid:

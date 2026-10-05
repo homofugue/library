@@ -1,5 +1,6 @@
 ---
 type: person
+field:
 role:
   - translator
 aliases:

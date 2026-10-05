@@ -1,6 +1,7 @@
 ---
 type: text
 kind:
+field:
 title:
 author: "[[]]"
 translator:

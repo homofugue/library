@@ -1,5 +1,7 @@
 ---
 type: book
+field:
+  - "[[literature]]"
 author:
   - "[[Taeko Kōno]]"
 translator:

@@ -37,6 +37,12 @@ button:focus-visible,input:focus-visible,[tabindex]:focus-visible{outline:2px so
 .chip{display:inline-flex;align-items:center;gap:6px;border:0;background:none;color:var(--ink);font:.78rem var(--f-body);cursor:pointer;padding:3px 2px}
 .chip .sw{width:10px;height:10px;border-radius:50%;background:var(--c);flex:none}
 .chip.work .sw{border-radius:1.5px;width:8px;height:11px}
+.chip.field .sw{background:transparent;box-shadow:inset 0 0 0 2px var(--c)}
+.rank .sw.field{background:transparent;box-shadow:inset 0 0 0 2px var(--c)}
+.fields{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0 0}
+.fields button{all:unset;cursor:pointer;font-family:var(--f-display);font-size:1rem;padding:5px 12px;border:1.5px solid var(--ink);border-radius:999px}
+.fields button:hover{background:var(--wash)}
+.fields button.sub{font-size:.85rem;border-style:dashed;opacity:.85}
 .chip.text .sw{border-radius:1px;transform:rotate(45deg);width:8px;height:8px}
 .chip.image .sw{border-radius:2px;width:11px;height:11px}
 .chip.marginalia .sw,.chip.stub .sw{background:transparent;box-shadow:inset 0 0 0 1.5px var(--c)}
@@ -106,6 +112,7 @@ ul.rank,ol.rank{list-style:none;margin:0;padding:0;display:grid;gap:2px}
 .shelf .lab .sw{width:8px;height:8px;border-radius:50%;background:var(--c)}
 .node text{font-family:var(--f-body);font-size:10px;fill:var(--muted);pointer-events:none;paint-order:stroke;stroke:var(--bg);stroke-width:3px;stroke-linejoin:round}
 .node.work text{font-family:var(--f-display);font-size:11.5px;fill:var(--ink)}
+.node.field text{font-family:var(--f-display);font-size:15px;fill:var(--ink);text-transform:lowercase;letter-spacing:.01em}
 .node.theme text{font-weight:500;fill:var(--ink)}
 .node{cursor:pointer}
 .link{stroke:var(--edge);fill:none}
@@ -148,12 +155,12 @@ a{color:inherit}
 <script>
 const DATA = /*DATA*/null;
 const TYPES = {
-  work:{label:"Works",c:"--work",on:true}, quote:{label:"Quotes",c:"--capture",on:true}, marginalia:{label:"Marginalia",c:"--capture",on:true},
+  field:{label:"Fields",c:"--work",on:true}, work:{label:"Works",c:"--work",on:true}, quote:{label:"Quotes",c:"--capture",on:true}, marginalia:{label:"Marginalia",c:"--capture",on:true},
   text:{label:"Texts",c:"--capture",on:true}, image:{label:"Images",c:"--capture",on:true},
   person:{label:"People",c:"--person",on:true}, theme:{label:"Themes",c:"--theme",on:true},
   imprint:{label:"Publishers & journals",c:"--meta",on:false}, honor:{label:"Honors",c:"--meta",on:false}, geo:{label:"Places & languages",c:"--meta",on:false}
 };
-const FIELD_LABEL = {themes:"theme",author:"author",translator:"translator",editor:"editor",creator:"creator",via:"via",work:"from",in:"in",publisher:"publisher",series:"series",institution:"held at",awards:"award",shortlists:"shortlist",published:"published in","original language":"language",related:"related"};
+const FIELD_LABEL = {field:"field",parent:"within",themes:"theme",author:"author",translator:"translator",editor:"editor",creator:"creator",via:"via",work:"from",in:"in",publisher:"publisher",series:"series",institution:"held at",awards:"award",shortlists:"shortlist",published:"published in","original language":"language",related:"related"};
 const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
 const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const byId = new Map(DATA.nodes.map(n => [n.id, n]));
@@ -205,6 +212,7 @@ const pos = new Map();
 function size(){ const r = document.getElementById("graph").getBoundingClientRect(); return [Math.max(r.width,300), Math.max(r.height,300)]; }
 function radius(n){
   const d = deg.get(n.id)||0;
+  if (n.type==="field") return 12 + Math.sqrt(d)*2.6;
   if (n.type==="work") return 7 + Math.sqrt(d)*1.4;
   if (n.type==="theme") return 4 + Math.sqrt(d)*2.4;
   if (n.type==="image") return 13;
@@ -224,7 +232,10 @@ function drawMark(sel){
   sel.each(function(d){
     const g = d3.select(this), col = `var(${TYPES[d.type].c})`;
     const fill = d.stub ? "var(--bg)" : col, stroke = d.stub ? col : "var(--bg)", dash = d.stub ? "2,2" : null;
-    if (d.type==="work"){
+    if (d.type==="field"){
+      g.append("circle").attr("class","mark").attr("r",d.r).attr("fill","var(--bg)").attr("stroke",col).attr("stroke-width",2.2);
+      g.append("circle").attr("r",2.5).attr("fill",col);
+    } else if (d.type==="work"){
       const book = d.kind!=="article";
       g.append("rect").attr("class","mark").attr("width", book?d.r*1.3:d.r*1.9).attr("height", book?d.r*1.9:d.r*1.3)
         .attr("x", book?-d.r*.65:-d.r*.95).attr("y", book?-d.r*.95:-d.r*.65).attr("rx",1.5)
@@ -245,7 +256,7 @@ function drawMark(sel){
     g.append("text");
   });
 }
-function labelOn(d){ const k = deg.get(d.id)||0; return d.type==="work" || (d.type==="theme" && (!d.stub || k>=2)) || (d.type==="person" && k>=3) || d.id===selected; }
+function labelOn(d){ const k = deg.get(d.id)||0; return d.type==="field" || d.type==="work" || (d.type==="theme" && (!d.stub || k>=2)) || (d.type==="person" && k>=3) || d.id===selected; }
 function render(){
   const [W,H] = size();
   svg.attr("viewBox", [-W/2,-H/2,W,H]);
@@ -268,8 +279,8 @@ function render(){
                    .on("end",(e,d)=>{ if(!e.active) sim.alphaTarget(0); d.fx=null; d.fy=null; }));
   if (sim) sim.stop();
   sim = d3.forceSimulation(current.nodes)
-    .force("link", d3.forceLink(current.links).id(d=>d.id).distance(l => 30 + 40/(l.w+.4)).strength(l => Math.min(.9,.2+l.w*.3)))
-    .force("charge", d3.forceManyBody().strength(d => d.type==="work" ? -240 : d.type==="theme" ? -160 : d.type==="image" ? -140 : -50 - d.r*6))
+    .force("link", d3.forceLink(current.links).id(d=>d.id).distance(l => (l.field==="field"||l.field==="parent") ? 90 : 30 + 40/(l.w+.4)).strength(l => l.field==="field" ? .35 : Math.min(.9,.2+l.w*.3)))
+    .force("charge", d3.forceManyBody().strength(d => d.type==="field" ? -700 : d.type==="work" ? -240 : d.type==="theme" ? -160 : d.type==="image" ? -140 : -50 - d.r*6))
     .force("collide", d3.forceCollide(d => labelOn(d) ? Math.max(d.r + 10, 8 + Math.min(d.title.length, 34) * 2.1) : d.r + 5).strength(.8))
     .force("x", d3.forceX(0).strength(.045)).force("y", d3.forceY(0).strength(.07))
     .on("tick", () => { tick(); if (sim.alpha() < .25 && !fitted){ fitted = true; fit(true); } }).on("end", () => fit(true));
@@ -312,6 +323,7 @@ function highlight(id){
 const panel = document.getElementById("panel");
 const col = t => `var(${TYPES[t].c})`;
 const sw = n => `<span class="sw ${n.type}${n.stub||n.type==="marginalia"?" hollow":""}" style="--c:${col(n.type)}"></span>`;
+function fieldTags(n){ return n.fields&&n.fields.length ? `<p class="byline" style="margin-top:8px">${n.fields.map(f=>`<button data-go="${esc(f)}">${esc(f)}</button>`).join(" · ")}</p>` : ""; }
 function tagBtn(id){ const n = byId.get(id); if(!n) return ""; return `<button class="tag${n.proposed?" proposed":""}" style="--c:${col(n.type)}" data-go="${esc(id)}" title="${n.proposed?"proposed theme — not yet reviewed":""}">${esc(n.title)}</button>`; }
 function row(n, right, why){
   return `<li><button data-go="${esc(n.id)}">${sw(n)}<span class="t">${n.type==="work"?`<i>${esc(n.title)}</i>`:esc(n.title)}${why?`<span class="why">${esc(why)}</span>`:""}</span><span class="r">${esc(right??"")}</span></button></li>`;
@@ -325,7 +337,7 @@ function picHTML(t, alt, small){ return t ? `<div class="pic${small?" small":""}
 function grouped(id, exclude=[]){
   const groups = {};
   (nbrs.get(id)||[]).forEach(x => { const n = byId.get(x.id); if(!n||exclude.includes(n.type)) return; (groups[n.type] ||= []).push({n, field:x.field}); });
-  const order = ["quote","marginalia","text","image","work","person","theme","imprint","honor","geo"];
+  const order = ["field","quote","marginalia","text","image","work","person","theme","imprint","honor","geo"];
   return order.filter(t=>groups[t]).map(t => {
     const items = groups[t]; const seen = new Set();
     const list = items.filter(x=>!seen.has(x.n.id)&&seen.add(x.n.id));
@@ -346,6 +358,7 @@ function showHome(){
     <p class="eyebrow">Camille's library</p>
     <h2>${written} notes, joined by what they share</h2>
     <p class="summary">Works are squares; the things kept from them — quotes, texts, images — are orange; people aqua; themes blue. Click anything to read it; the panel lists what it touches.</p>
+    <div class="fields">${DATA.nodes.filter(n=>n.type==="field").sort((a,b)=>(a.parent?1:0)-(b.parent?1:0)||a.title.localeCompare(b.title)).map(n=>`<button data-go="${esc(n.id)}" class="${n.parent?"sub":""}">${esc(n.title)}</button>`).join("")}</div>
     <div class="shelf">${["work","quote","text","image","person","theme"].filter(t=>counts[t]).map(t=>`<button data-filter="${t}" style="--c:${col(t)}"><div class="big">${counts[t]}</div><div class="lab"><span class="sw"></span>${TYPES[t].label}</div></button>`).join("")}</div>
     ${reading.length?`<h3>Reading now</h3><ul class="rank">${reading.map(n=>row(n,n.started,(n.author||[]).join(", "))).join("")}</ul>`:""}
     <h3>Recently captured</h3>
@@ -361,6 +374,7 @@ function showWork(n){
     ${coverHTML(n)}
     <p class="eyebrow"><span class="dot" style="--c:${col("work")}"></span>${esc(n.kind)}${n.genre&&n.genre.length?" · "+esc(n.genre.join(" · ")):""}${n.status?` · ${esc(n.status)}`:""}</p>
     <h2>${esc(n.title)}</h2>
+    ${fieldTags(n)}
     <p class="byline">${people.map(([k,v])=>(k==="author"?"":k+" ")+v.map(p=>`<button data-go="${esc(p)}">${esc(p)}</button>`).join(", ")).join(" · ")}</p>
     ${n.firstLine ? `<blockquote class="quote">${esc(n.firstLine)}</blockquote>` : ""}
     ${n.summary ? `<p class="summary">${esc(n.summary)}</p>` : ""}
@@ -374,6 +388,7 @@ function showQuote(n){
   panel.innerHTML = `
     <button class="back" data-home>← Library</button>
     <p class="eyebrow"><span class="dot" style="--c:${col(n.type)}"></span>${n.type}${n.page?` · p. ${esc(n.page)}`:""}</p>
+    ${fieldTags(n)}
     ${n.quote ? `<blockquote class="quote">${esc(n.quote)}</blockquote>` : ""}
     ${n.text ? `<p class="prose">${esc(n.text)}</p>` : ""}
     ${w ? `<p class="attrib">from <button class="linkish" data-go="${esc(w.id)}"><i>${esc(w.title)}</i></button>${(w.author||[]).length?", "+esc(w.author.join(", ")):""}${w.year?" ("+esc(w.year)+")":""}</p>` : ""}
@@ -387,6 +402,7 @@ function showText(n){
     <button class="back" data-home>← Library</button>
     <p class="eyebrow"><span class="dot" style="--c:${col("text")}"></span>${esc(n.kind||"text")}${n.date?` · ${esc(n.date)}`:""}</p>
     <h2>${esc(n.title)}</h2>
+    ${fieldTags(n)}
     <p class="byline">${(n.author||[]).map(p=>`<button data-go="${esc(p)}">${esc(p)}</button>`).join(", ")}${(n.translator||[]).length?` · tr. ${n.translator.map(p=>`<button data-go="${esc(p)}">${esc(p)}</button>`).join(", ")}`:""}</p>
     <div class="${n.kind==="poem"?"poem":"prose"}">${esc(n.text)}</div>
     ${n.source ? `<p class="attrib">${esc(n.source)}${n.sourceUrl?` · <a href="${esc(n.sourceUrl)}" target="_blank" rel="noopener">source</a>`:""}</p>` : ""}
@@ -404,6 +420,7 @@ function showImage(n){
     ${picHTML(n.thumb, n.title)}
     <p class="eyebrow"><span class="dot" style="--c:${col("image")}"></span>${esc(n.kind||"image")}${n.date?` · ${esc(n.date)}`:""}</p>
     <h2>${esc(n.title)}</h2>
+    ${fieldTags(n)}
     <p class="byline">${(n.creator||[]).map(p=>`<button data-go="${esc(p)}">${esc(p)}</button>`).join(", ")}</p>
     ${n.text ? `<p class="prose">${esc(n.text)}</p>` : ""}
     <dl>${rowd("Source", esc(n.source))}${rowd("Held at", n.institution?`<button class="linkish" data-go="${esc(n.institution)}">${esc(n.institution)}</button>${n.inventory?` · <span class="mono">${esc(n.inventory)}</span>`:""}`:"")}${rowd("Medium", esc(n.medium))}${rowd("Links", [n.sourceUrl?`<a href="${esc(n.sourceUrl)}" target="_blank" rel="noopener">source page</a>`:"", n.hires?`<a href="${esc(n.hires)}" target="_blank" rel="noopener">hi-res</a>`:""].filter(Boolean).join(" · "))}</dl>
@@ -418,8 +435,19 @@ function showPerson(n){
     <p class="eyebrow"><span class="dot" style="--c:${col("person")}"></span>${esc((n.roles||[]).join(" · ")||"person")}${life?` · ${esc(life)}`:""}${n.nationality?` · ${esc(n.nationality)}`:""}</p>
     <h2>${esc(n.title)}</h2>
     ${n.stub ? `<p class="empty">Linked from other notes; no note of their own yet.</p>` : ""}
+    ${fieldTags(n)}
     ${n.aliases&&n.aliases.length ? `<p class="byline">also ${esc(n.aliases.join(", "))}</p>` : ""}
     ${n.text ? `<p class="prose">${esc(n.text)}</p>` : ""}
+    ${grouped(n.id)}`;
+}
+function showField(n){
+  const parent = n.parent ? byId.get(n.parent) : null;
+  panel.innerHTML = `
+    <button class="back" data-home>← Library</button>
+    <p class="eyebrow"><span class="dot" style="--c:${col("field")}"></span>field${parent?` · within <button class="linkish" data-go="${esc(parent.id)}">${esc(parent.title)}</button>`:""}</p>
+    <h2>${esc(n.title)}</h2>
+    ${n.text ? `<p class="prose">${esc(n.text)}</p>` : ""}
+    <p class="byline">${deg.get(n.id)||0} connections</p>
     ${grouped(n.id)}`;
 }
 function showTheme(n){
@@ -444,7 +472,7 @@ function select(id){
   selected = id;
   if (!id){ showHome(); highlight(null); return; }
   const n = byId.get(id); if (!n) return;
-  ({work:showWork, quote:showQuote, marginalia:showQuote, text:showText, image:showImage, person:showPerson, theme:showTheme}[n.type] || showPlain)(n);
+  ({field:showField, work:showWork, quote:showQuote, marginalia:showQuote, text:showText, image:showImage, person:showPerson, theme:showTheme}[n.type] || showPlain)(n);
   if (!current.nodes.find(x=>x.id===id)){
     if (!visible[n.type]){ visible[n.type]=true; const b = filtersEl.querySelector(".chip."+n.type); if (b) b.setAttribute("aria-pressed",true); save(); }
     render();

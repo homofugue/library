@@ -1,6 +1,7 @@
 ---
 type: image
 kind: photograph
+field:
 title: "Cleaner vacuuming beside a presidential podium propped on Coca-Cola crates"
 creator: 
 date: 

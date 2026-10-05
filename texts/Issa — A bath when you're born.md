@@ -1,6 +1,9 @@
 ---
 type: text
 kind: poem
+field:
+  - "[[literature]]"
+  - "[[poetry]]"
 title: "A bath when you're born"
 author: "[[Kobayashi Issa]]"
 translator: "[[Robert Hass]]"

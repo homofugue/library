@@ -1,0 +1,10 @@
+filters:
+  and:
+    - note.type == "field"
+views:
+  - type: table
+    name: Fields
+    order:
+      - file.name
+      - parent
+      - aliases

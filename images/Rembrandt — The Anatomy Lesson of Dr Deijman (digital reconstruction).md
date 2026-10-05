@@ -1,6 +1,8 @@
 ---
 type: image
 kind: archival
+field:
+  - "[[painting]]"
 title: "Digital reconstruction of the full composition of The Anatomy Lesson of Dr Deijman"
 creator: "[[Norbert Middelkoop]]"
 date: 

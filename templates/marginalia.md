@@ -1,6 +1,7 @@
 ---
 type: marginalia
 work: "[[]]"
+field:
 page:
 edition year:
 themes:

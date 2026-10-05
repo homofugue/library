@@ -11,6 +11,7 @@ views:
     order:
       - file.name
       - type
+      - field
       - status
       - author
       - published year

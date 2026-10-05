@@ -1,6 +1,8 @@
 ---
 type: text
 kind: interview
+field:
+  - "[[film]]"
 title: "I took two hours of someone's life"
 author: "[[Chantal Akerman]]"
 translator: 

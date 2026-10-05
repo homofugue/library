@@ -1,6 +1,7 @@
 ---
 type: text
 kind: post
+field:
 title: "Wilhoit's law"
 author: "[[Frank Wilhoit]]"
 translator:

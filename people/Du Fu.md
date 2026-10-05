@@ -1,5 +1,8 @@
 ---
 type: person
+field:
+  - "[[literature]]"
+  - "[[poetry]]"
 role:
   - poet
   - author

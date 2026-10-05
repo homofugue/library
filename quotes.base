@@ -10,6 +10,7 @@ views:
     order:
       - file.name
       - work
+      - field
       - page
       - edition year
       - speaker

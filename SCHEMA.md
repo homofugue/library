@@ -6,6 +6,7 @@ This vault is the source of truth for the library. Everything that is published 
 
 ```
 books/        one note per book (the edition you own/read)
+fields/       the handful of central fields everything hangs from (literature, poetry, painting, performance, film, psychoanalysis)
 articles/     one note per article, essay or chapter — a work, like a book, but living inside a journal or volume
 quotes/       one note per quotation
 marginalia/   one note per marginal thought (your own words, no excerpt)
@@ -23,9 +24,21 @@ _site/        build.py (constellation page) and arena_publish.py (Are.na push)
 
 Folders are by **type**, never by subject. Subject lives in `themes:` links, so a book never has to be moved when it turns out to belong to three subjects.
 
-Every note has `type:` in its frontmatter — `book`, `article`, `quote`, `marginalia`, `person`, `theme`, `image`, or `text`. **Book and article are the two kinds of *work*.** Quotes, marginalia, texts and images point at a work through a `work:` field; `works.base` lists both kinds together. Bases, the site build, and the Are.na export all filter on it.
+Every note has `type:` in its frontmatter — `field`, `book`, `article`, `quote`, `marginalia`, `person`, `theme`, `image`, or `text`. **Book and article are the two kinds of *work*.** Quotes, marginalia, texts and images point at a work through a `work:` field; `works.base` lists both kinds together. Bases, the site build, and the Are.na export all filter on it.
 
 Wikilink everything that is a thing: people, themes, publishers, places, awards, series. A link to a note that doesn't exist yet is fine — Obsidian shows it as unresolved and it can be created later from the template.
+
+## Field  (`fields/<name>.md`)
+
+The central tags. There are six and they change rarely: **literature** (with **poetry** inside it), **painting**, **performance**, **film**, **psychoanalysis**. Every other note type carries a `field:` list of `[[field]]` links; a note can sit in several (a sonnet sequence about performers is literature, poetry and performance). Themes are for subjects and are many; fields are for disciplines and are few — when in doubt it's a theme.
+
+| field | meaning |
+|---|---|
+| `type` | `field` |
+| `parent` | `[[field]]` for a sub-field (poetry → literature); blank for the top level |
+| `aliases` | other names, lowercase |
+
+Body: one sentence on what belongs here. On the graph, fields are the large ringed anchors.
 
 ## Book  (`books/<Title>.md`)
 
@@ -41,6 +54,7 @@ Wikilink everything that is a thing: people, themes, publishers, places, awards,
 | `read in` | the language you read it in — leave blank if same as original |
 | `isbn` | string, keep the quotes |
 | `awards`, `shortlists` | lists of `[[Award]]` links |
+| `field` | list of `[[field]]` links — which of the central fields this belongs to |
 | `themes` | list of `[[theme]]` links |
 | `tags` | keep `book` plus genre tags (`poetry`, `fiction`, `short-stories` …) |
 | `cover` | `covers/<file>.jpg` or an https URL |

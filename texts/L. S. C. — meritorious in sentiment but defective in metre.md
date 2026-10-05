@@ -1,6 +1,9 @@
 ---
 type: text
 kind: notice
+field:
+  - "[[literature]]"
+  - "[[poetry]]"
 title: "L. S. C. — meritorious in sentiment but defective in metre"
 author: 
 translator: 

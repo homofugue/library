@@ -13,6 +13,7 @@ views:
       - creator
       - date
       - kind
+      - field
   - type: table
     name: Table
     order:

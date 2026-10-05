@@ -1,6 +1,7 @@
 ---
 type: image
 kind:
+field:
 title:
 creator:
 date:

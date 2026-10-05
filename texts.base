@@ -10,6 +10,7 @@ views:
     order:
       - file.name
       - kind
+      - field
       - author
       - translator
       - date

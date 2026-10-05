@@ -1,5 +1,7 @@
 ---
 type: person
+field:
+  - "[[literature]]"
 role:
   - translator
   - author

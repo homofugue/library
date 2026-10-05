@@ -1,6 +1,8 @@
 ---
 type: image
 kind: artwork
+field:
+  - "[[painting]]"
 title: "The Anatomy Lesson of Dr Jan Deijman (fragment)"
 creator: "[[Rembrandt van Rijn]]"
 date: 1656

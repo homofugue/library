@@ -1,5 +1,7 @@
 ---
 type: book
+field:
+  - "[[psychoanalysis]]"
 author:
   - "[[Sándor Ferenczi]]"
 translator:
@@ -18,7 +20,6 @@ isbn:
 awards:
 shortlists:
 themes:
-  - "[[Psychoanalysis]]"
 tags:
   - "book"
   - "diary"

@@ -1,6 +1,7 @@
 ---
 type: quote
 work: "[[The Subject and Power]]"
+field:
 page: 784
 edition year: 1982
 speaker: 

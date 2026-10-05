@@ -1,6 +1,7 @@
 ---
 type: image
 kind: diagram
+field:
 title: "Hand Jue Yin pericardium meridian, PC1–PC9, with tsun measurements"
 creator: 
 date: 

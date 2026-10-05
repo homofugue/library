@@ -1,6 +1,8 @@
 ---
 type: article
 kind: chapter
+field:
+  - "[[psychoanalysis]]"
 author:
   - "[[D. W. Winnicott]]"
 translator:
@@ -15,7 +17,6 @@ doi:
 url:
 original language: "English"
 themes:
-  - "[[Psychoanalysis]]"
 tags:
   - "article"
   - "chapter"

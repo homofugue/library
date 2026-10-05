@@ -1,6 +1,9 @@
 ---
 type: text
 kind: poem
+field:
+  - "[[literature]]"
+  - "[[poetry]]"
 title: "The Comfort"
 author: "[[Alice Notley]]"
 translator: 

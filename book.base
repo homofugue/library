@@ -11,6 +11,7 @@ views:
     order:
       - file.name
       - status
+      - field
       - cover
       - author
       - translator

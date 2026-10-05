@@ -1,5 +1,7 @@
 ---
 type: book
+field:
+  - "[[psychoanalysis]]"
 author:
   - "[[Carl Jung]]"
 translator:
@@ -17,7 +19,6 @@ isbn:
 awards:
 shortlists:
 themes:
-  - "[[Psychoanalysis]]"
   - "[[Autobiography and the self]]"
 tags:
   - "book"

@@ -1,6 +1,8 @@
 ---
 type: image
 kind: archival
+field:
+  - "[[painting]]"
 title: "Thrones — Fiery Two-Winged Wheels"
 creator: 
 date: 1907 (this edition; French original 1843)

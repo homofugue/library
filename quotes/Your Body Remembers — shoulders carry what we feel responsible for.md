@@ -1,6 +1,7 @@
 ---
 type: quote
 work: "[[Your Body Remembers What You're Trying to Forget]]"
+field:
 page: 50
 edition year: 
 speaker: 
