@@ -163,7 +163,7 @@ const nbrs = new Map();
 DATA.edges.forEach(e => { (nbrs.get(e.source)||nbrs.set(e.source,[]).get(e.source)).push({id:e.target,field:e.field}); (nbrs.get(e.target)||nbrs.set(e.target,[]).get(e.target)).push({id:e.source,field:e.field,rev:true}); });
 
 // ---------- state ----------
-let selected = null, showStubs = true;
+let selected = null, showStubs = false;
 const visible = Object.fromEntries(Object.entries(TYPES).map(([k,v])=>[k,v.on]));
 try { const s = JSON.parse(localStorage.getItem("lc2-filters")); if (s) Object.assign(visible, s); const st = localStorage.getItem("lc2-stubs"); if (st!==null) showStubs = st==="1"; } catch(e){}
 const save = () => { try{ localStorage.setItem("lc2-filters", JSON.stringify(visible)); localStorage.setItem("lc2-stubs", showStubs?"1":"0"); }catch(e){} };
@@ -184,7 +184,7 @@ function buildFilters(){
   const sep = document.createElement("span"); sep.className="sep"; filtersEl.appendChild(sep);
   const s = document.createElement("button"); s.type="button"; s.className="chip stub"; s.style.setProperty("--c","var(--meta)");
   const ns = DATA.nodes.filter(x=>x.stub).length;
-  s.innerHTML = `<span class="sw"></span>Names without a note yet <span class="n">${ns}</span>`;
+  s.innerHTML = `<span class="sw"></span>Linked names without a note <span class="n">${ns}</span>`;
   s.setAttribute("aria-pressed", showStubs);
   s.onclick = () => { showStubs=!showStubs; s.setAttribute("aria-pressed", showStubs); save(); render(); };
   filtersEl.appendChild(s);
@@ -200,7 +200,7 @@ const gLinks = root.append("g"), gNodes = root.append("g");
 let userZoomed = false;
 const zoom = d3.zoom().scaleExtent([.25,5]).on("zoom", e => { root.attr("transform", e.transform); if (e.sourceEvent) userZoomed = true; });
 svg.call(zoom).on("dblclick.zoom", null);
-let sim, nodeSel, linkSel, current = {nodes:[],links:[]};
+let sim, nodeSel, linkSel, fitted = false, current = {nodes:[],links:[]};
 const pos = new Map();
 function size(){ const r = document.getElementById("graph").getBoundingClientRect(); return [Math.max(r.width,300), Math.max(r.height,300)]; }
 function radius(n){
@@ -215,7 +215,7 @@ function radius(n){
 }
 function build(){
   const keep = new Set();
-  DATA.nodes.forEach(n => { if (!visible[n.type]) return; if (n.stub && !showStubs && n.id!==selected) return; keep.add(n.id); });
+  DATA.nodes.forEach(n => { if (!visible[n.type]) return; if (n.stub && !showStubs && n.type!=="theme" && n.id!==selected) return; keep.add(n.id); });
   const nodes = DATA.nodes.filter(n=>keep.has(n.id)).map(n => Object.assign({r:radius(n)}, n));
   const links = DATA.edges.filter(e=>keep.has(e.source)&&keep.has(e.target)).map(e=>({source:e.source,target:e.target,w:e.w,field:e.field}));
   return {nodes, links};
@@ -245,7 +245,7 @@ function drawMark(sel){
     g.append("text");
   });
 }
-function labelOn(d){ return d.type==="work" || d.type==="theme" || (d.type==="person" && (deg.get(d.id)||0)>=2) || d.id===selected; }
+function labelOn(d){ const k = deg.get(d.id)||0; return d.type==="work" || (d.type==="theme" && (!d.stub || k>=2)) || (d.type==="person" && k>=3) || d.id===selected; }
 function render(){
   const [W,H] = size();
   svg.attr("viewBox", [-W/2,-H/2,W,H]);
@@ -270,9 +270,10 @@ function render(){
   sim = d3.forceSimulation(current.nodes)
     .force("link", d3.forceLink(current.links).id(d=>d.id).distance(l => 30 + 40/(l.w+.4)).strength(l => Math.min(.9,.2+l.w*.3)))
     .force("charge", d3.forceManyBody().strength(d => d.type==="work" ? -240 : d.type==="theme" ? -160 : d.type==="image" ? -140 : -50 - d.r*6))
-    .force("collide", d3.forceCollide(d => d.r + (d.type==="work"?14:d.type==="image"?8:4)))
+    .force("collide", d3.forceCollide(d => labelOn(d) ? Math.max(d.r + 10, 8 + Math.min(d.title.length, 34) * 2.1) : d.r + 5).strength(.8))
     .force("x", d3.forceX(0).strength(.045)).force("y", d3.forceY(0).strength(.07))
-    .on("tick", tick).on("end", () => fit(true));
+    .on("tick", () => { tick(); if (sim.alpha() < .25 && !fitted){ fitted = true; fit(true); } }).on("end", () => fit(true));
+  fitted = false;
   if (reduce){ sim.stop(); for(let i=0;i<300;i++) sim.tick(); tick(); fit(false); }
   else sim.alpha(pos.size ? .5 : 1).restart();
   if (selected && !current.nodes.find(n=>n.id===selected)) selected = null;
@@ -460,7 +461,7 @@ panel.addEventListener("click", e => {
 });
 svg.on("click", e => { if (e.target === svg.node()) select(null); });
 document.getElementById("fit").onclick = () => { userZoomed=false; fit(true); };
-document.getElementById("clear").onclick = () => { Object.entries(TYPES).forEach(([k,v])=>visible[k]=v.on); showStubs=true; buildFilters(); save(); select(null); render(); };
+document.getElementById("clear").onclick = () => { Object.entries(TYPES).forEach(([k,v])=>visible[k]=v.on); showStubs=false; buildFilters(); save(); select(null); render(); };
 document.addEventListener("keydown", e => { if (e.key==="Escape"){ select(null); document.getElementById("q").value=""; } });
 
 // ---------- search ----------
