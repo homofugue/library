@@ -33,7 +33,7 @@ h1{font-family:var(--f-display);font-weight:400;font-size:1.55rem;margin:0;lette
 .tools{margin-left:auto;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
 input[type=search]{font:inherit;font-size:.85rem;padding:6px 10px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--ink);width:220px;max-width:100%}
 button:focus-visible,input:focus-visible,[tabindex]:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
-.filters{display:flex;flex-wrap:wrap;gap:4px 12px;align-items:center;padding-block:4px 8px;border-bottom:1px solid var(--line)}
+.filters{display:flex;flex-wrap:wrap;gap:4px 12px;align-items:center;padding-block:6px 8px;border-bottom:1px solid var(--line)}
 .chip{display:inline-flex;align-items:center;gap:6px;border:0;background:none;color:var(--ink);font:.78rem var(--f-body);cursor:pointer;padding:3px 2px}
 .chip .sw{width:10px;height:10px;border-radius:50%;background:var(--c);flex:none}
 .chip.work .sw{border-radius:1.5px;width:8px;height:11px}
@@ -122,6 +122,58 @@ a{color:inherit}
   input[type=search]{width:100%}
 }
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
+
+/* views */
+.views{display:inline-flex;border:1px solid var(--line);border-radius:999px;padding:2px;background:var(--surface);margin-right:6px}
+.views button{border:0;background:none;color:var(--muted);font:500 .78rem var(--f-body);padding:4px 11px;border-radius:999px;cursor:pointer}
+.views button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
+.view{position:absolute;inset:0;overflow:auto;padding:14px 16px 24px 0;background:var(--bg)}
+.view[hidden]{display:none}
+.sortrow{display:flex;flex-wrap:wrap;gap:6px 14px;align-items:center;margin:0 0 12px;font-size:.78rem;color:var(--muted)}
+.sortrow button{all:unset;cursor:pointer;color:var(--muted);padding:2px 0;border-bottom:1px solid transparent}
+.sortrow button[aria-pressed="true"]{color:var(--ink);border-color:var(--ink)}
+.wall{columns:5 160px;column-gap:8px}
+.wall button{all:unset;display:block;cursor:pointer;break-inside:avoid;margin:0 0 8px;border-radius:3px;overflow:hidden;background:var(--wash);position:relative}
+.wall img{width:100%;height:auto;display:block}
+.wall button:hover img{opacity:.88}
+.wall .cap{position:absolute;left:0;right:0;bottom:0;padding:18px 8px 6px;font-size:.7rem;color:#fff;background:linear-gradient(transparent,rgba(0,0,0,.6));opacity:0;transition:opacity .15s}
+.wall button:hover .cap,.wall button:focus-visible .cap{opacity:1}
+.wall .hue{position:absolute;top:6px;left:6px;width:10px;height:10px;border-radius:50%;border:1.5px solid #fff;box-shadow:0 0 0 1px rgba(0,0,0,.25)}
+.index{columns:3 260px;column-gap:28px}
+.index section{break-inside:avoid;margin:0 0 14px}
+.index h3{margin:0 0 4px;font-family:var(--f-display);font-size:1.3rem;font-weight:400;color:var(--faint)}
+.index ul{list-style:none;margin:0;padding:0}
+.index li button{all:unset;cursor:pointer;display:flex;gap:8px;align-items:baseline;padding:2px 0;max-width:100%}
+.index li button:hover .t{border-bottom:1px solid var(--ink)}
+.index .sw{width:8px;height:8px;border-radius:50%;background:var(--c);flex:none;transform:translateY(-1px)}
+.index .sw.work{border-radius:1px;width:6px;height:9px}
+.index .sw.text{border-radius:1px;transform:rotate(45deg) translateY(-1px);width:7px;height:7px}
+.index .sw.image{border-radius:2px;width:9px;height:9px}
+.index .sw.field{background:transparent;box-shadow:inset 0 0 0 1.5px var(--c)}
+.index .t{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:.85rem}
+.index .t i{font-style:italic}
+.index .k{font-family:var(--f-mono);font-size:.62rem;color:var(--faint);flex:none}
+.trails{display:grid;gap:10px;max-width:720px}
+.trailcard{all:unset;cursor:pointer;display:block;border:1px solid var(--line);border-radius:10px;padding:14px 16px;background:var(--surface)}
+.trailcard:hover{border-color:var(--ink)}
+.trailcard h3{font-family:var(--f-display);font-weight:400;font-size:1.15rem;margin:0 0 4px;text-transform:none;letter-spacing:0;color:var(--ink)}
+.trailcard p{margin:0;color:var(--muted);font-size:.85rem}
+.trailcard .meta{font-family:var(--f-mono);font-size:.66rem;color:var(--faint);margin-top:8px;display:flex;gap:10px}
+.stops{list-style:none;margin:12px 0 0;padding:0;display:grid;gap:4px;counter-reset:stop}
+.stops li{display:grid;grid-template-columns:22px 1fr;gap:10px;align-items:start}
+.stops li::before{counter-increment:stop;content:counter(stop);font-family:var(--f-mono);font-size:.7rem;color:var(--muted);border:1px solid var(--line);border-radius:50%;width:20px;height:20px;display:grid;place-items:center;margin-top:2px}
+.stops li.on::before{background:var(--capture);color:#fff;border-color:var(--capture)}
+.stops button{all:unset;cursor:pointer;display:block;padding:3px 6px;border-radius:6px}
+.stops button:hover,.stops li.on button{background:var(--wash)}
+.stops .t{display:block}
+.stops .t i{font-style:italic}
+.stops .n{display:block;font-size:.8rem;color:var(--muted);margin-top:2px}
+.player{display:flex;gap:6px;align-items:center;margin:12px 0 0}
+.player button{border:1px solid var(--line);background:var(--surface);color:var(--ink);font:500 .78rem var(--f-body);padding:5px 11px;border-radius:6px;cursor:pointer}
+.player button:hover{border-color:var(--ink)}
+.player .pos{font-family:var(--f-mono);font-size:.7rem;color:var(--muted);margin-left:auto}
+.lvl{position:absolute;left:0;top:8px;font-family:var(--f-mono);font-size:.66rem;letter-spacing:.06em;text-transform:uppercase;color:var(--faint);pointer-events:none}
+@media (max-width:760px){.wall{columns:3 110px}.index{columns:1}}
 </style>
 
 <div class="app">
@@ -129,6 +181,12 @@ a{color:inherit}
     <h1>Library Constellation</h1>
     <span class="count" id="count"></span>
     <div class="tools">
+      <div class="views" role="group" aria-label="View" id="views">
+        <button type="button" data-view="graph" aria-pressed="true">Constellation</button>
+        <button type="button" data-view="wall" aria-pressed="false">Wall</button>
+        <button type="button" data-view="index" aria-pressed="false">Index</button>
+        <button type="button" data-view="trails" aria-pressed="false">Trails</button>
+      </div>
       <input type="search" id="q" placeholder="Search titles, people, quotes…" aria-label="Search the library">
     </div>
   </header>
@@ -136,8 +194,12 @@ a{color:inherit}
   <main>
     <div id="graph">
       <div id="fg" role="img" aria-label="Network of works, quotes, texts, images, people and themes"></div>
-      <div class="hint">Drag to pan · scroll to zoom · click to read · drag a node to pin it for a moment</div>
+      <div class="lvl" id="lvl"></div>
+      <div class="hint">Drag to pan · scroll to zoom in for detail · click to read</div>
       <div class="ctl"><button id="fit" type="button">Fit</button><button id="clear" type="button">Clear</button></div>
+      <div class="view" id="wall" hidden></div>
+      <div class="view" id="index" hidden></div>
+      <div class="view" id="trailsview" hidden></div>
     </div>
     <aside id="panel" aria-live="polite"></aside>
   </main>
@@ -163,7 +225,7 @@ const nbrs = new Map();
 DATA.edges.forEach(e => { (nbrs.get(e.source)||nbrs.set(e.source,[]).get(e.source)).push({id:e.target,field:e.field}); (nbrs.get(e.target)||nbrs.set(e.target,[]).get(e.target)).push({id:e.source,field:e.field,rev:true}); });
 
 // ---------- state ----------
-let selected = null, showStubs = false;
+let selected = null, showStubs = false, view = "graph", activeTrail = null, trailPos = 0, playing = null;
 const visible = Object.fromEntries(Object.entries(TYPES).map(([k,v])=>[k,v.on]));
 try { const s = JSON.parse(localStorage.getItem("lc2-filters")); if (s) Object.assign(visible, s); const st = localStorage.getItem("lc2-stubs"); if (st!==null) showStubs = st==="1"; } catch(e){}
 const save = () => { try{ localStorage.setItem("lc2-filters", JSON.stringify(visible)); localStorage.setItem("lc2-stubs", showStubs?"1":"0"); }catch(e){} };
@@ -178,7 +240,7 @@ function buildFilters(){
     b.className = "chip "+t; b.style.setProperty("--c", `var(${info.c})`);
     b.innerHTML = `<span class="sw"></span>${info.label} <span class="n">${n}</span>`;
     b.setAttribute("aria-pressed", visible[t]);
-    b.onclick = () => { visible[t] = !visible[t]; b.setAttribute("aria-pressed", visible[t]); save(); render(); };
+    b.onclick = () => { visible[t] = !visible[t]; b.setAttribute("aria-pressed", visible[t]); save(); render(); renderView(); };
     filtersEl.appendChild(b);
   });
   const sep = document.createElement("span"); sep.className="sep"; filtersEl.appendChild(sep);
@@ -191,18 +253,18 @@ function buildFilters(){
 }
 buildFilters();
 const written = DATA.nodes.filter(n=>!n.stub).length;
-document.getElementById("count").textContent = `${written} notes · ${DATA.nodes.length-written} linked names · built ${DATA.built}`;
+document.getElementById("count").textContent = `${written} notes · ${DATA.trails.length} trails · built ${DATA.built}`;
 
 // ---------- graph (canvas, force-graph) ----------
 const el = document.getElementById("fg");
 const cssv = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
-let C = {}; function readColors(){ C = {bg:cssv("--bg"), ink:cssv("--ink"), muted:cssv("--muted"), faint:cssv("--faint"), edge:cssv("--edge"), focus:cssv("--focus"),
+let C = {}; function readColors(){ C = {bg:cssv("--bg"), ink:cssv("--ink"), muted:cssv("--muted"), faint:cssv("--faint"), edge:cssv("--edge"), focus:cssv("--focus"), wash:cssv("--wash"),
   work:cssv("--work"), theme:cssv("--theme"), capture:cssv("--capture"), person:cssv("--person"), meta:cssv("--meta")}; }
 readColors();
 const colorOf = t => C[TYPES[t].c.slice(2)];
-const thumbs = new Map();   // id -> HTMLImageElement
+const thumbs = new Map();
 DATA.nodes.forEach(n => { if (n.type==="image" && n.thumb){ const im = new Image(); im.src = n.thumb.src; thumbs.set(n.id, im); } });
-let current = {nodes:[],links:[]}, nodeById = new Map(), userZoomed = false, hovered = null, searchHits = null, fitted = false;
+let current = {nodes:[],links:[]}, nodeById = new Map(), userZoomed = false, hovered = null, searchHits = null, fitted = false, level = 0;
 function radius(n){
   const d = deg.get(n.id)||0;
   if (n.type==="field") return 12 + Math.sqrt(d)*2.6;
@@ -216,17 +278,22 @@ function radius(n){
 }
 function labelOn(d){ const k = deg.get(d.id)||0; return d.type==="field" || d.type==="work" || (d.type==="theme" && (!d.stub || k>=2)) || (d.type==="person" && k>=3) || d.id===selected; }
 const trunc = t => t.length>42 ? t.slice(0,40)+"…" : t;
-// what each node is drawn toward: its parent theme/field, its work, or its first field
+// semantic zoom: which nodes show at the current zoom level
+function levelFor(k){ return k < .95 ? 0 : k < 1.9 ? 1 : 2; }
+function pinned(id){ return id===selected || (focusSet && focusSet.has(id) && (selected||searchHits||activeTrail)) || (activeTrail && trailSet.has(id)); }
+function visibleAt(n){ if (pinned(n.id)) return true; return n.level <= level; }
+// anchors: every node is drawn toward its precomputed place; children also toward their parent
 function anchorOf(n){
-  if (n.type==="theme" || n.type==="field") return n.parent ? [n.parent, n.type==="field"?.08:.14] : null;
+  if (n.type==="theme" || n.type==="field") return n.parent ? [n.parent, n.type==="field"?.06:.1] : null;
   if (n.work && nodeById.has(n.work)) return [n.work, .05];
-  if (n.fields && n.fields.length && nodeById.has(n.fields[0])) return [n.fields[0], n.type==="work"?.045:.03];
   return null;
 }
 function forceParent(){
   let nodes = [];
   function force(alpha){
     for (const n of nodes){
+      // home position from the build
+      n.vx += (n.px - n.x) * .06 * alpha; n.vy += (n.py - n.y) * .06 * alpha;
       const a = anchorOf(n); if (!a) continue;
       const p = nodeById.get(a[0]); if (!p || p.x==null) continue;
       n.vx += (p.x - n.x) * a[1] * alpha; n.vy += (p.y - n.y) * a[1] * alpha;
@@ -239,24 +306,76 @@ function build(){
   const keep = new Set();
   DATA.nodes.forEach(n => { if (!visible[n.type]) return; if (n.stub && !showStubs && n.type!=="theme" && n.id!==selected) return; keep.add(n.id); });
   const prev = nodeById;
-  const nodes = DATA.nodes.filter(n=>keep.has(n.id)).map(n => { const o = prev.get(n.id); return Object.assign({r:radius(n)}, n, o ? {x:o.x,y:o.y,vx:0,vy:0} : {}); });
+  const nodes = DATA.nodes.filter(n=>keep.has(n.id)).map(n => { const o = prev.get(n.id); return Object.assign({r:radius(n)}, n, o ? {x:o.x,y:o.y,vx:0,vy:0} : {x:n.px, y:n.py, vx:0, vy:0}); });
   const links = DATA.edges.filter(e=>keep.has(e.source)&&keep.has(e.target)).map(e=>({source:e.source,target:e.target,w:e.w,field:e.field}));
   nodeById = new Map(nodes.map(n=>[n.id,n]));
   return {nodes, links};
 }
 function neighborSet(id){ const s = new Set([id]); (nbrs.get(id)||[]).forEach(x => s.add(x.id)); return s; }
-let focusSet = null;   // ids to keep bright
-function recomputeFocus(){ focusSet = searchHits ? searchHits : selected ? neighborSet(selected) : hovered ? neighborSet(hovered.id) : null; }
-function alphaFor(id){ return focusSet && !focusSet.has(id) ? .12 : 1; }
+let focusSet = null, trailSet = new Set();
+function recomputeFocus(){ focusSet = activeTrail ? trailSet : searchHits ? searchHits : selected ? neighborSet(selected) : hovered ? neighborSet(hovered.id) : null; }
+function alphaFor(id){ return focusSet && !focusSet.has(id) ? (activeTrail ? .08 : .12) : 1; }
+// cluster hulls: one translucent disc per field at the wide levels
+function clusterGeometry(){
+  const groups = new Map();
+  current.nodes.forEach(n => { if (!n.cluster) return; (groups.get(n.cluster)||groups.set(n.cluster,[]).get(n.cluster)).push(n); });
+  const out = [];
+  groups.forEach((members, fid) => {
+    const f = nodeById.get(fid); if (!f) return;
+    const cx = members.reduce((s,n)=>s+n.x,0)/members.length, cy = members.reduce((s,n)=>s+n.y,0)/members.length;
+    const r = Math.max(60, ...members.map(n => Math.hypot(n.x-cx, n.y-cy))) + 26;
+    const imgs = members.filter(n=>n.type==="image" && thumbs.get(n.id)).slice(0,4);
+    out.push({f, cx, cy, r, count: members.filter(n=>!n.stub && n.type!=="field").length, imgs});
+  });
+  return out;
+}
 
 const Graph = ForceGraph()(el)
   .nodeId("id").nodeLabel(() => "").nodeRelSize(1).nodeVal(n => n.r*n.r/8)
   .backgroundColor("rgba(0,0,0,0)")
-  .linkColor(l => { const a = focusSet ? ((focusSet.has(l.source.id) && focusSet.has(l.target.id)) ? .9 : .05) : .42; return C.edge.replace(/[\d.]+\)$/, a+")"); })
+  .nodeVisibility(n => visibleAt(n))
+  .linkVisibility(l => visibleAt(l.source) && visibleAt(l.target) && !(activeTrail && !(trailSet.has(l.source.id) && trailSet.has(l.target.id))))
+  .linkColor(l => { const a = focusSet ? ((focusSet.has(l.source.id) && focusSet.has(l.target.id)) ? .9 : .05) : (level===0 ? .25 : .42); return C.edge.replace(/[\d.]+\)$/, a+")"); })
   .linkWidth(l => .35 + l.w*.55)
-  .linkDirectionalParticles(l => selected && (l.source.id===selected || l.target.id===selected) ? Math.round(1 + l.w*2) : 0)
+  .linkDirectionalParticles(l => selected && !activeTrail && (l.source.id===selected || l.target.id===selected) ? Math.round(1 + l.w*2) : 0)
   .linkDirectionalParticleWidth(l => 1.5 + l.w)
   .linkDirectionalParticleColor(() => C.capture)
+  .onRenderFramePre((ctx, k) => {
+    const lv = levelFor(k); if (lv !== level){ level = lv; document.getElementById("lvl").textContent = ["fields & themes","+ works","everything"][level]; }
+    if (level > 1 || activeTrail) return;
+    for (const g of clusterGeometry()){
+      ctx.save();
+      ctx.beginPath(); ctx.arc(g.cx, g.cy, g.r, 0, Math.PI*2);
+      ctx.fillStyle = C.ink.startsWith("#E") || C.ink.startsWith("#e") ? "rgba(236,233,225,.045)" : "rgba(31,29,26,.045)"; ctx.fill();
+      ctx.lineWidth = 1/k; ctx.strokeStyle = C.edge.replace(/[\d.]+\)$/, ".35)"); ctx.setLineDash([4/k, 4/k]); ctx.stroke(); ctx.setLineDash([]);
+      if (level === 0){
+        // count under the field's name, and a sliver of its images on the rim
+        const f = g.f; ctx.font = `${10/Math.pow(k,.75)}px "IBM Plex Mono",ui-monospace,monospace`; ctx.fillStyle = C.muted; ctx.textAlign = "left"; ctx.textBaseline = "middle";
+        ctx.fillText(`${g.count} ${g.count===1?"note":"notes"}`, f.x + f.r + 4, f.y + 15/Math.pow(k,.75));
+        g.imgs.forEach((n, i) => {
+          const im = thumbs.get(n.id); if (!im.complete || !im.naturalWidth) return;
+          const a = -Math.PI/2 + .5*(i - (g.imgs.length-1)/2), sz = 22/Math.sqrt(k), x = g.cx + (g.r - sz*.6)*Math.cos(a), y = g.cy + (g.r - sz*.6)*Math.sin(a);
+          ctx.save(); ctx.beginPath(); ctx.roundRect(x-sz/2, y-sz/2, sz, sz, 3/k); ctx.fillStyle = C.bg; ctx.fill(); ctx.clip();
+          const sc = Math.max(sz/im.naturalWidth, sz/im.naturalHeight); ctx.drawImage(im, x - im.naturalWidth*sc/2, y - im.naturalHeight*sc/2, im.naturalWidth*sc, im.naturalHeight*sc); ctx.restore();
+          ctx.beginPath(); ctx.roundRect(x-sz/2, y-sz/2, sz, sz, 3/k); ctx.lineWidth = 1.2/k; ctx.strokeStyle = C.capture; ctx.stroke();
+        });
+      }
+      ctx.restore();
+    }
+  })
+  .onRenderFramePost((ctx, k) => {
+    if (!activeTrail) return;
+    const pts = activeTrail.stops.map(s => nodeById.get(s.id)).filter(n => n && n.x != null);
+    if (pts.length < 2) return;
+    ctx.save(); ctx.lineWidth = 2.5/Math.sqrt(k); ctx.strokeStyle = C.capture; ctx.setLineDash([6/k, 5/k]); ctx.lineJoin = "round";
+    ctx.beginPath(); pts.forEach((p,i) => i ? ctx.lineTo(p.x,p.y) : ctx.moveTo(p.x,p.y)); ctx.stroke(); ctx.setLineDash([]);
+    pts.forEach((p, i) => {
+      const r = 8/Math.sqrt(k), on = i === trailPos;
+      ctx.beginPath(); ctx.arc(p.x + p.r*.9, p.y - p.r*.9, r, 0, Math.PI*2); ctx.fillStyle = on ? C.capture : C.bg; ctx.fill(); ctx.lineWidth = 1.5/Math.sqrt(k); ctx.strokeStyle = C.capture; ctx.stroke();
+      ctx.font = `500 ${9.5/Math.sqrt(k)}px "IBM Plex Mono",ui-monospace,monospace`; ctx.textAlign = "center"; ctx.textBaseline = "middle"; ctx.fillStyle = on ? "#fff" : C.ink; ctx.fillText(String(i+1), p.x + p.r*.9, p.y - p.r*.9);
+    });
+    ctx.restore();
+  })
   .nodeCanvasObjectMode(() => "replace")
   .nodeCanvasObject((n, ctx, k) => {
     const col = colorOf(n.type), a = alphaFor(n.id), r = n.r;
@@ -284,9 +403,8 @@ const Graph = ForceGraph()(el)
     }
     ctx.setLineDash([]);
     if (n.id===selected || (searchHits && searchHits.has(n.id))){ ctx.beginPath(); ctx.arc(0,0,r+3,0,Math.PI*2); ctx.lineWidth = 2/Math.sqrt(k); ctx.strokeStyle = C.focus; ctx.stroke(); }
-    // label — level of detail: anchors always, others when zoomed in, hovered or in focus
     const show = labelOn(n) || k > 2.2 || (hovered && hovered.id===n.id) || (focusSet && focusSet.has(n.id) && focusSet.size < 40);
-    if (show && !(n.type==="image" && !(hovered && hovered.id===n.id) && n.id!==selected)){
+    if (show && !(n.type==="image" && !(hovered && hovered.id===n.id) && n.id!==selected && !(activeTrail && trailSet.has(n.id)))){
       const serif = n.type==="field" || n.type==="work";
       const fs = (n.type==="field" ? 15 : n.type==="work" ? 11.5 : 10) / Math.pow(k, .75);
       ctx.font = `${n.type==="theme"?"500 ":""}${fs}px ${serif ? '"Young Serif",Georgia,serif' : '"Public Sans",system-ui,sans-serif'}`;
@@ -297,29 +415,25 @@ const Graph = ForceGraph()(el)
     }
     ctx.restore();
   })
-  .nodePointerAreaPaint((n, color, ctx) => { ctx.fillStyle = color; ctx.beginPath(); ctx.arc(n.x, n.y, n.r+4, 0, Math.PI*2); ctx.fill(); })
-  .onNodeHover(n => { hovered = n; el.style.cursor = n ? "pointer" : "grab"; if (!selected && !searchHits) recomputeFocus(); })
+  .nodePointerAreaPaint((n, color, ctx) => { if (!visibleAt(n)) return; ctx.fillStyle = color; ctx.beginPath(); ctx.arc(n.x, n.y, n.r+4, 0, Math.PI*2); ctx.fill(); })
+  .onNodeHover(n => { hovered = n; el.style.cursor = n ? "pointer" : "grab"; if (!selected && !searchHits && !activeTrail) recomputeFocus(); })
   .onNodeClick(n => select(n.id))
-  .onBackgroundClick(() => select(null))
+  .onBackgroundClick(() => { if (!activeTrail) select(null); })
   .onNodeDrag(() => { userZoomed = true; })
-  .onZoom(() => {})
-  .cooldownTicks(260).d3AlphaDecay(.03).d3VelocityDecay(.3)
+  .cooldownTicks(120).d3AlphaDecay(.05).d3VelocityDecay(.35).warmupTicks(40)
   .onEngineStop(() => { if (!fitted && !userZoomed){ fitted = true; Graph.zoomToFit(600, 40); } });
 el.addEventListener("wheel", () => { userZoomed = true; }, {passive:true});
 el.addEventListener("pointerdown", e => { if (e.target.tagName==="CANVAS") userZoomed = true; });
-Graph.d3Force("charge").strength(n => n.type==="field" ? -700 : n.type==="work" ? -240 : n.type==="theme" ? -160 : n.type==="image" ? -140 : -50 - n.r*6);
-Graph.d3Force("link").distance(l => (l.field==="field"||l.field==="parent") ? 90 : 30 + 40/(l.w+.4)).strength(l => l.field==="field" ? .35 : Math.min(.9,.2+l.w*.3));
+Graph.d3Force("charge").strength(n => n.type==="field" ? -500 : n.type==="work" ? -160 : n.type==="theme" ? -120 : n.type==="image" ? -110 : -40 - n.r*5);
+Graph.d3Force("link").distance(l => (l.field==="field"||l.field==="parent") ? 80 : 30 + 40/(l.w+.4)).strength(l => l.field==="field" ? .15 : Math.min(.6,.1+l.w*.2));
 Graph.d3Force("center", null);
-Graph.d3Force("x", d3.forceX(0).strength(.045)); Graph.d3Force("y", d3.forceY(0).strength(.07));
-Graph.d3Force("collide", d3.forceCollide(d => labelOn(d) ? Math.max(d.r + 10, 8 + Math.min(d.title.length, 34) * 2.1) : d.r + 5).strength(.8));
+Graph.d3Force("collide", d3.forceCollide(d => labelOn(d) ? Math.max(d.r + 8, 6 + Math.min(d.title.length, 34) * 1.7) : d.r + 4).strength(.7));
 Graph.d3Force("parent", forceParent());
 function sizeGraph(){ const r = el.parentElement.getBoundingClientRect(); Graph.width(Math.max(r.width,300)).height(Math.max(r.height,300)); }
 new ResizeObserver(sizeGraph).observe(el.parentElement); sizeGraph();
 function render(){ current = build(); fitted = false; Graph.graphData(current); Graph.d3ReheatSimulation(); recomputeFocus(); }
 function fit(){ userZoomed = false; Graph.zoomToFit(600, 40); }
-function highlight(){ recomputeFocus(); }
-function centreOn(id){ const n = nodeById.get(id); if (n && n.x!=null){ Graph.centerAt(n.x, n.y, 500); if (Graph.zoom() < 1.4) Graph.zoom(1.6, 500); } }
-// theme changes: re-read the tokens
+function centreOn(id, zoomTo){ const n = nodeById.get(id); if (n && n.x!=null){ Graph.centerAt(n.x, n.y, 500); const z = zoomTo || 2.1; if (Graph.zoom() < z) Graph.zoom(z, 500); } }
 matchMedia("(prefers-color-scheme: dark)").addEventListener("change", readColors);
 new MutationObserver(readColors).observe(document.documentElement, {attributes:true, attributeFilter:["data-theme"]});
 
@@ -365,6 +479,7 @@ function showHome(){
     <div class="fields">${DATA.nodes.filter(n=>n.type==="field").sort((a,b)=>(a.parent?1:0)-(b.parent?1:0)||a.title.localeCompare(b.title)).map(n=>`<button data-go="${esc(n.id)}" class="${n.parent?"sub":""}">${esc(n.title)}</button>`).join("")}</div>
     <div class="shelf">${["work","quote","text","image","person","theme"].filter(t=>counts[t]).map(t=>`<button data-filter="${t}" style="--c:${col(t)}"><div class="big">${counts[t]}</div><div class="lab"><span class="sw"></span>${TYPES[t].label}</div></button>`).join("")}</div>
     ${reading.length?`<h3>Reading now</h3><ul class="rank">${reading.map(n=>row(n,n.started,(n.author||[]).join(", "))).join("")}</ul>`:""}
+    ${DATA.trails.length ? `<h3>Trails</h3><ul class="rank">${DATA.trails.slice(0,4).map(t=>`<li><button data-trail-go="${esc(t.id)}"><span class="sw quote" style="--c:${col("quote")}"></span><span class="t">${esc(t.title)}<span class="why">${esc(t.summary)}</span></span><span class="r">${t.stops.length} stops</span></button></li>`).join("")}<li><button data-opentrails><span class="sw quote hollow" style="--c:${col("quote")}"></span><span class="t">All trails →</span><span class="r"></span></button></li></ul>` : ""}
     <h3>Recently captured</h3>
     <ul class="rank">${recent.map(n=>row(n, n.captured, n.type==="quote"?n.quote:n.type==="work"?(n.author||[]).join(", "):n.type==="text"?(n.author||[]).join(", ")||n.kind:n.type==="image"?(n.creator||[]).join(", ")||n.kind:"")).join("")||"<li class='empty'>Nothing dated yet.</li>"}</ul>
     <h3>Themes by reach</h3>
@@ -472,27 +587,109 @@ function showPlain(n){
     <p class="byline">${deg.get(n.id)||0} ${(deg.get(n.id)||0)===1?"connection":"connections"}</p>
     ${grouped(n.id)}`;
 }
-function select(id){
+
+// ---------- trails ----------
+function showTrail(t){
+  const stop = t.stops[trailPos];
+  panel.innerHTML = `
+    <button class="back" data-trails>← Trails</button>
+    <p class="eyebrow"><span class="dot" style="--c:${col("quote")}"></span>trail · ${t.stops.length} stops${t.status==="draft"?` <span class="pill">draft</span>`:""}</p>
+    <h2>${esc(t.title)}</h2>
+    ${t.summary ? `<p class="summary">${esc(t.summary)}</p>` : ""}
+    ${t.intro ? `<p class="prose" style="font-size:.9rem">${esc(t.intro)}</p>` : ""}
+    <div class="player"><button type="button" data-step="-1">← Prev</button><button type="button" data-step="1">Next →</button><button type="button" data-play>${playing?"Pause":"Play"}</button><span class="pos">${trailPos+1} / ${t.stops.length}</span></div>
+    <ol class="stops">${t.stops.map((s,i) => { const n = byId.get(s.id); return `<li class="${i===trailPos?"on":""}"><button data-stop="${i}"><span class="t">${n && n.type==="work" ? `<i>${esc(n.title)}</i>` : esc(n ? n.title : s.id)}</span>${s.note?`<span class="n">${esc(s.note)}</span>`:""}</button></li>`; }).join("")}</ol>
+    ${stop ? `<h3>Stop ${trailPos+1}</h3><div id="stopdetail"></div>` : ""}`;
+  if (stop){ const n = byId.get(stop.id); if (n){ const tmp = document.createElement("div"); renderNode(n, tmp); document.getElementById("stopdetail").innerHTML = tmp.innerHTML.replace(/<button class="back"[^>]*>[^<]*<\/button>/, ""); } }
+}
+function renderNode(n, target){
+  const prev = panel.innerHTML; ({field:showField, work:showWork, quote:showQuote, marginalia:showQuote, text:showText, image:showImage, person:showPerson, theme:showTheme}[n.type] || showPlain)(n);
+  target.innerHTML = panel.innerHTML; panel.innerHTML = prev;
+}
+function startTrail(t, pos=0){
+  activeTrail = t; trailPos = pos; trailSet = new Set(t.stops.map(s=>s.id)); selected = null; searchHits = null;
+  setView("graph", true);
+  // make sure every stop's type is visible
+  let changed = false; t.stops.forEach(s => { const n = byId.get(s.id); if (n && !visible[n.type]){ visible[n.type] = true; changed = true; } });
+  if (changed){ buildFilters(); save(); render(); }
+  recomputeFocus(); showTrail(t); goStop(pos);
+}
+function goStop(i){
+  if (!activeTrail) return; const t = activeTrail; trailPos = Math.max(0, Math.min(t.stops.length-1, i));
+  selected = t.stops[trailPos].id; recomputeFocus(); showTrail(t);
+  const n = nodeById.get(selected); if (n) centreOn(selected, 1.8); else { render(); setTimeout(()=>centreOn(selected, 1.8), 900); }
+}
+function stopTrail(){ activeTrail = null; trailSet = new Set(); if (playing){ clearInterval(playing); playing = null; } selected = null; recomputeFocus(); }
+function togglePlay(){ if (playing){ clearInterval(playing); playing = null; } else { playing = setInterval(() => { if (!activeTrail) return; if (trailPos >= activeTrail.stops.length-1){ clearInterval(playing); playing = null; showTrail(activeTrail); return; } goStop(trailPos+1); }, 6000); } if (activeTrail) showTrail(activeTrail); }
+function showTrailsHome(){
+  const tv = document.getElementById("trailsview");
+  tv.innerHTML = `<p class="eyebrow">Trails</p><h2 style="font-family:var(--f-display);font-weight:400;font-size:1.3rem;margin:0 0 6px">${DATA.trails.length} walks through the library</h2><p class="summary" style="margin:0 0 14px">A trail is an ordered path with a sentence at each stop. Pick one and the constellation dims to the path; Play steps through it.</p>
+    <div class="trails">${DATA.trails.map(t => `<button class="trailcard" data-trail="${esc(t.id)}"><h3>${esc(t.title)}</h3><p>${esc(t.summary)}</p><div class="meta"><span>${t.stops.length} stops</span>${t.fields.map(f=>`<span>${esc(f)}</span>`).join("")}${t.status==="draft"?"<span>draft</span>":""}</div></button>`).join("")}</div>`;
+}
+
+// ---------- wall & index ----------
+let wallSort = "theme";
+function showWall(){
+  const w = document.getElementById("wall");
+  let imgs = DATA.nodes.filter(n => n.type==="image" && n.thumb);
+  const year = s => { const m = String(s||"").match(/\d{3,4}/); return m ? +m[0] : 9999; };
+  if (wallSort==="hue") imgs.sort((a,b) => ((a.thumb.sat<.12?999:a.thumb.hue)-(b.thumb.sat<.12?999:b.thumb.hue)) || (b.thumb.light-a.thumb.light));
+  else if (wallSort==="date") imgs.sort((a,b) => year(a.date)-year(b.date));
+  else imgs.sort((a,b) => ((a.themes||[])[0]||"~").localeCompare((b.themes||[])[0]||"~") || a.title.localeCompare(b.title));
+  w.innerHTML = `<div class="sortrow"><span>Sort by</span>${["theme","date","hue"].map(s=>`<button type="button" data-sort="${s}" aria-pressed="${wallSort===s}">${s}</button>`).join("")}<span style="margin-left:auto">${imgs.length} images</span></div>
+    <div class="wall">${imgs.map(n => `<button data-go="${esc(n.id)}" title="${esc(n.title)}"><img src="${n.thumb.src}" width="${n.thumb.w}" height="${n.thumb.h}" alt="${esc(n.title)}" loading="lazy">${n.thumb.hue!=null?`<span class="hue" style="background:hsl(${n.thumb.hue} ${Math.round(n.thumb.sat*100)}% ${Math.round(40+n.thumb.light*30)}%)"></span>`:""}<span class="cap">${esc(n.title)}${n.date?` · ${esc(n.date)}`:""}</span></button>`).join("")}</div>`;
+}
+function showIndex(){
+  const ix = document.getElementById("index");
+  const items = DATA.nodes.filter(n => !n.stub && visible[n.type]).sort((a,b) => a.title.localeCompare(b.title, undefined, {sensitivity:"base"}));
+  const groups = new Map();
+  items.forEach(n => { const L = (n.title.replace(/^(the|a|an)\s+/i,"")[0]||"#").toUpperCase(); const key = /[A-Z]/.test(L) ? L : "#"; (groups.get(key)||groups.set(key,[]).get(key)).push(n); });
+  ix.innerHTML = `<div class="sortrow"><span>${items.length} entries · articles dropped for sorting · use the type chips above to narrow</span></div><div class="index">${[...groups.keys()].sort().map(k => `<section><h3>${k}</h3><ul>${groups.get(k).map(n => `<li><button data-go="${esc(n.id)}"><span class="sw ${n.type}" style="--c:${col(n.type)}"></span><span class="t">${n.type==="work"?`<i>${esc(n.title)}</i>`:esc(n.title)}</span><span class="k">${esc(n.kind||n.type)}</span></button></li>`).join("")}</ul></section>`).join("")}</div>`;
+}
+function setView(v, keepPanel){
+  view = v;
+  document.querySelectorAll("#views button").forEach(b => b.setAttribute("aria-pressed", b.dataset.view===v));
+  document.getElementById("wall").hidden = v!=="wall"; document.getElementById("index").hidden = v!=="index"; document.getElementById("trailsview").hidden = v!=="trails";
+  document.querySelector("#graph .hint").hidden = v!=="graph"; document.querySelector("#graph .ctl").hidden = v!=="graph"; document.getElementById("lvl").hidden = v!=="graph";
+  renderView();
+  if (v==="trails" && !keepPanel && !activeTrail) showHome();
+}
+function renderView(){ if (view==="wall") showWall(); else if (view==="index") showIndex(); else if (view==="trails") showTrailsHome(); }
+document.getElementById("views").addEventListener("click", e => { const b = e.target.closest("[data-view]"); if (b) setView(b.dataset.view); });
+document.getElementById("wall").addEventListener("click", e => { const s = e.target.closest("[data-sort]"); if (s){ wallSort = s.dataset.sort; showWall(); return; } const go = e.target.closest("[data-go]"); if (go) select(go.dataset.go, true); });
+document.getElementById("index").addEventListener("click", e => { const go = e.target.closest("[data-go]"); if (go) select(go.dataset.go, true); });
+document.getElementById("trailsview").addEventListener("click", e => { const t = e.target.closest("[data-trail]"); if (t){ const tr = DATA.trails.find(x=>x.id===t.dataset.trail); if (tr) startTrail(tr); } });
+
+// ---------- select ----------
+function select(id, stay){
+  if (activeTrail && !(id && trailSet.has(id))) stopTrail();
   selected = id;
   if (!id){ showHome(); searchHits = null; recomputeFocus(); return; }
   const n = byId.get(id); if (!n) return;
+  if (activeTrail){ const i = activeTrail.stops.findIndex(s=>s.id===id); if (i>=0){ goStop(i); return; } }
   ({field:showField, work:showWork, quote:showQuote, marginalia:showQuote, text:showText, image:showImage, person:showPerson, theme:showTheme}[n.type] || showPlain)(n);
   if (!nodeById.has(id)){
     if (!visible[n.type]){ visible[n.type]=true; const b = filtersEl.querySelector(".chip."+n.type); if (b) b.setAttribute("aria-pressed",true); save(); }
     render();
   }
   searchHits = null; recomputeFocus();
-  setTimeout(() => centreOn(id), nodeById.get(id) && nodeById.get(id).x!=null ? 0 : 900);
+  if (!stay){ setTimeout(() => centreOn(id), nodeById.get(id) && nodeById.get(id).x!=null ? 0 : 900); }
   panel.scrollTop = 0;
 }
 panel.addEventListener("click", e => {
-  const go = e.target.closest("[data-go]"); if (go) return select(go.dataset.go);
+  const tg = e.target.closest("[data-trail-go]"); if (tg){ const tr = DATA.trails.find(x=>x.id===tg.dataset.trailGo); if (tr) startTrail(tr); return; }
+  const st = e.target.closest("[data-stop]"); if (st) return goStop(+st.dataset.stop);
+  const sp = e.target.closest("[data-step]"); if (sp) return goStop(trailPos + (+sp.dataset.step));
+  if (e.target.closest("[data-play]")) return togglePlay();
+  if (e.target.closest("[data-trails]")){ stopTrail(); setView("trails"); showHome(); return; }
+  const go = e.target.closest("[data-go]"); if (go){ if (view!=="graph" && view!=="trails") { /* stay in wall/index */ } else setView("graph", true); return select(go.dataset.go, view==="wall"||view==="index"); }
   if (e.target.closest("[data-home]")) return select(null);
-  const f = e.target.closest("[data-filter]"); if (f){ const t=f.dataset.filter; Object.keys(visible).forEach(k=>visible[k]=(k===t||k==="work"||k==="field")); buildFilters(); save(); render(); }
+  const f = e.target.closest("[data-filter]"); if (f){ const t=f.dataset.filter; Object.keys(visible).forEach(k=>visible[k]=(k===t||k==="work"||k==="field")); buildFilters(); save(); render(); renderView(); }
+  const tl = e.target.closest("[data-opentrails]"); if (tl) setView("trails");
 });
 document.getElementById("fit").onclick = () => fit();
-document.getElementById("clear").onclick = () => { Object.entries(TYPES).forEach(([k,v])=>visible[k]=v.on); showStubs=false; buildFilters(); save(); select(null); render(); };
-document.addEventListener("keydown", e => { if (e.key==="Escape"){ select(null); document.getElementById("q").value=""; } });
+document.getElementById("clear").onclick = () => { Object.entries(TYPES).forEach(([k,v])=>visible[k]=v.on); showStubs=false; buildFilters(); save(); stopTrail(); select(null); render(); };
+document.addEventListener("keydown", e => { if (e.key==="Escape"){ stopTrail(); select(null); document.getElementById("q").value=""; } if (activeTrail && e.key==="ArrowRight") goStop(trailPos+1); if (activeTrail && e.key==="ArrowLeft") goStop(trailPos-1); });
 
 // ---------- search ----------
 const hay = new Map(DATA.nodes.map(n => [n.id, [n.title, n.quote, n.text, (n.author||[]).join(" "), (n.creator||[]).join(" "), n.source, n.summary, (n.aliases||[]).join(" ")].filter(Boolean).join(" ").toLowerCase()]));
@@ -500,6 +697,7 @@ const q = document.getElementById("q");
 q.addEventListener("input", e => {
   const s = e.target.value.trim().toLowerCase();
   if (!s){ searchHits = null; recomputeFocus(); if (!selected) showHome(); return; }
+  if (activeTrail) stopTrail();
   searchHits = new Set(DATA.nodes.filter(n => hay.get(n.id).includes(s)).map(n=>n.id)); recomputeFocus();
   const list = DATA.nodes.filter(n => hay.get(n.id).includes(s)).slice(0,30);
   panel.innerHTML = `<p class="eyebrow">Search</p><h2>${list.length} ${list.length===1?"match":"matches"}</h2><ul class="rank">${list.map(n=>row(n, TYPES[n.type].label, n.type==="quote"?n.quote:n.type==="text"?(n.text||"").split("\n")[0]:(n.author||n.creator||[]).join(", "))).join("")||"<li class='empty'>Nothing matches.</li>"}</ul>`;

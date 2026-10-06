@@ -1,0 +1,15 @@
+filters:
+  and:
+    - note.type == "trail"
+views:
+  - type: table
+    name: Trails
+    order:
+      - file.name
+      - status
+      - field
+      - themes
+      - captured
+    sort:
+      - property: captured
+        direction: DESC

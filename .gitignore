@@ -4,3 +4,4 @@
 .obsidian/plugins/*/data.json
 _site/index.html
 _site/fragment.html
+_site/_*

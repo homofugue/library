@@ -7,6 +7,7 @@ This vault is the source of truth for the library. Everything that is published 
 ```
 books/        one note per book (the edition you own/read)
 fields/       the handful of central fields everything hangs from (literature, poetry, painting, performance, film, psychoanalysis)
+trails/       ordered walks through the collection with a sentence at each stop (`type: trail`)
 articles/     one note per article, essay or chapter — a work, like a book, but living inside a journal or volume
 works/        other whole works: films, albums, performances, exhibitions (`type: work`, with `kind:`)
 quotes/       one note per quotation
@@ -181,3 +182,15 @@ All image files go in `attachments/` (Obsidian is set to put pasted images there
 ## Proposed themes
 
 Themes created by Claude carry `proposed: true` until you've looked at them. `themes.base` → "Proposed (review me)" lists them; flip the field to `false` to accept, or delete the note (and fix the links) to reject.
+## Trail  (`trails/<Title>.md`)
+
+An ordered walk through the collection with a sentence of commentary at each stop — the Vannevar Bush "trail". Trails are how a visitor experiences five hundred things without being handed all five hundred, and they are the form of an argument. On the site a trail draws as a highlighted path on the graph with everything else dimmed, playable stop by stop.
+
+| field | meaning |
+|---|---|
+| `type` | `trail` |
+| `title`, `summary` | the walk's name and its one-line thesis |
+| `status` | `draft` · `ready` |
+| `field`, `themes` | what the walk is mainly about |
+
+Body: an opening paragraph, then a numbered list — `1. [[Note]] — commentary` — one line per stop. Stops can be any note type (a quote, an image, a theme). The build warns about a stop whose note doesn't exist. The RA cleans data; you write trails.
