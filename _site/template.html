@@ -322,8 +322,11 @@ function clusterGeometry(){
   const out = [];
   groups.forEach((members, fid) => {
     const f = nodeById.get(fid); if (!f) return;
-    const cx = members.reduce((s,n)=>s+n.x,0)/members.length, cy = members.reduce((s,n)=>s+n.y,0)/members.length;
-    const r = Math.max(60, ...members.map(n => Math.hypot(n.x-cx, n.y-cy))) + 26;
+    const core = members.filter(n => n.type==="work" || n.type==="image" || n.type==="text" || n.type==="quote" || n.type==="marginalia" || (n.type==="theme" && n.level>0) || n.type==="field");
+    const pts = core.length >= 3 ? core : members;
+    const cx = pts.reduce((s,n)=>s+n.x,0)/pts.length, cy = pts.reduce((s,n)=>s+n.y,0)/pts.length;
+    const ds = pts.map(n => Math.hypot(n.x-cx, n.y-cy)).sort((a,b)=>a-b);
+    const r = Math.max(60, ds[Math.floor(ds.length*.8)] || 60) + 26;
     const imgs = members.filter(n=>n.type==="image" && thumbs.get(n.id)).slice(0,4);
     out.push({f, cx, cy, r, count: members.filter(n=>!n.stub && n.type!=="field").length, imgs});
   });

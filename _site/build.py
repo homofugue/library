@@ -104,7 +104,7 @@ def dominant(im):
     """Dominant hue/saturation/lightness of an image (HSV, 0-360 / 0-1 / 0-1), weighted toward saturated pixels."""
     try:
         small = im.resize((24, 24)).convert("HSV")
-        px = list(small.getdata())
+        px = list(small.getdata()) if not hasattr(small, 'get_flattened_data') else [tuple(t) for t in small.get_flattened_data()]
         sat = [p for p in px if p[1] > 40 and 20 < p[2] < 240]
         pool = sat if len(sat) >= 20 else px
         import math
@@ -187,7 +187,7 @@ for folder, kind in FOLDERS.items():
                       "hires": str(fm.get("hires url") or ""), "institution": (links_in(fm.get("institution")) or [""])[0],
                       "inventory": str(fm.get("inventory") or ""), "medium": str(fm.get("medium") or ""),
                       "work": (links_in(fm.get("work")) or [""])[0],
-                      "thumb": thumb(fm.get("hires file") or fm.get("file")), "text": plain(body, 700),
+                      "thumb": thumb(fm.get("file") or fm.get("hires file")), "text": plain(body, 700),
                       "title": str(fm.get("title") or name)})
         elif ntype == "person":
             n.update({"roles": [str(r) for r in as_list(fm.get("role"))], "born": str(fm.get("born") or ""),
@@ -209,7 +209,7 @@ for folder, kind in FOLDERS.items():
 
 # ---- trails: ordered walks through the collection ----
 trails = []
-STOP = re.compile(r"^\s*(\d+)[.)]\s+\[\[([^\]|#]+)(?:[|#][^\]]*)?\]\]\s*(?:[—–-]+\s*)?(.*)$")
+STOP = re.compile(r"^\s*(\d+)[.)]\s+\[\[([^\]|#]+)(?:[|#][^\]]*)?\]\]\s*(?:[—–-]+\s*)?(.*)$", re.M)
 tdir = os.path.join(VAULT, "trails")
 if os.path.isdir(tdir):
     for fn in sorted(os.listdir(tdir)):
